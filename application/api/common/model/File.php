@@ -1,0 +1,21 @@
+<?php
+
+namespace app\api\common\model;
+
+
+use think\Model;
+use think\model\concern\SoftDelete;
+
+/**
+ * 附件表
+ * Class File
+ * @package app\common\model
+ */
+class File extends Model
+{
+    protected $pk = 'file_id';
+
+    use SoftDelete;
+    protected $deleteTime = 'delete_time';
+    protected $defaultSoftDelete = 0;
+}
