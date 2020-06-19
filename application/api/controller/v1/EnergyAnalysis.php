@@ -109,7 +109,7 @@ class EnergyAnalysis extends Api
 	}
 
 	/**
-	 * 
+	 * 平谷峰分析
 	 * @DateTime 2020-06-01T09:54:55+0800
 	 * @return   [type]
 	 */
@@ -135,7 +135,7 @@ class EnergyAnalysis extends Api
 
 
 	/**
-	 *  //报装分析
+	 *  /需量分析
 	 * @DateTime 2020-06-02T09:02:38+0800
 	 * @param    string                   $value [description]
 	 */

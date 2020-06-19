@@ -36,9 +36,12 @@ class Company extends Api
 		$ponit = RoomModuleApparatus::getPoint();
 		//月度电量
 		$mouthElectricity = CeasDay::getMouthElectri();
+		//上个月度电量
+		$lastMouthElectricity = CeasDay::getLastMouthElectri();
 		//年度电量
 		$yearElectricity = CeasDay::getYearElectri();
-
+		//去年年度电量
+		$lastYearElectricity = CeasDay::getLastYearElectri();
 
 		//总负荷
 		$elecSql = Db::name('electricity_meter')
@@ -65,16 +68,18 @@ class Company extends Api
 							->find();
 		//最大负荷
 		$maxLoad = ClaasHour::getMaxLoad();
-
+		$mouthElectricity['mouthelectri'] =0.01;
+		$lastMouthElectricity['mouthelectri']  = 0.01;
 		$companyData = [];
 		$companyData['companyCount'] = $companyCount ? $companyCount : 0;
 		$companyData['pont'] = $ponit ? $ponit : 0;
 		$companyData['mouthElectricity'] = $mouthElectricity['mouthelectri'] ? $mouthElectricity['mouthelectri'] : 0.00;
 		$companyData['yearElectricity'] = $yearElectricity['yearElectri'] ? $yearElectricity['yearElectri'] : 0.00;
+		$companyData['lastMouthElectricity'] = $lastMouthElectricity['mouthelectri'] ? $lastMouthElectricity['mouthelectri'] : 0.00;
+		$companyData['lastYearElectricity'] = $lastYearElectricity['yearElectri'] ? $lastYearElectricity['yearElectri'] : 0.00;
 		$companyData['totalLoad'] = $totalLoad['tolalload'] ? $totalLoad['tolalload'] : 0.00;
 		$companyData['totalCapacity'] = $totalCapacity['totalcapacity'] ? $totalCapacity['totalcapacity'] : 0;
-		$companyData['maxLoad'] = $maxLoad['LARGEST_LOAD'] ? $maxLoad['LARGEST_LOAD'] : 0.0;
-
+		$companyData['maxLoad'] = $maxLoad['LARGEST_LOAD'] ? $maxLoad['LARGEST_LOAD'] : 0.00;
 		return render_json($companyData);
 
 	}
@@ -133,10 +138,10 @@ class Company extends Api
 
 			$arr['electricity_list'] = $list;
 			$arr['electricity_pie'] = $pie[0];
-			return self::returnMsg('200','success',$arr);
+			return render_json($arr);
 		}
 
-		return self::returnMsg('200','无数据');
+		return render_json('', '无数据',300);
 
 	}
 
@@ -251,9 +256,11 @@ class Company extends Api
 	 */
 	public function companyList()
 	{	
-		$param = $this->request->param('');
-		ValidataCommon::validateCheck(['USERID' => 'require'], $this->request->param('')); //参数验证
-		return self::returnMsg(200, 'success', CompanyModel::getCompanyByUid($param['USERID']));
+		if (!$this->user_id) {
+			return render_json('','非法访问',300);
+		}
+		//return self::returnMsg(200,'success',CompanyModel::getCompanyByUid($this->user_id));
+		return render_json(CompanyModel::getCompanyByUid($this->user_id));
 	}
 
 
@@ -291,6 +298,7 @@ class Company extends Api
 
 
 	/**
+	 * 单位负荷分析
 	 * @DateTime 2020-05-25T16:57:38+0800
 	 * @return   [type]
 	 */

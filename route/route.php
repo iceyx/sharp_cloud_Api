@@ -12,14 +12,10 @@
 //一般路由规则，访问的url为：v1/address/1,对应的文件为Address类下的read方法
 
 Route::resource(':version/user','api/:version.user');       //资源路由，详情查看tp手册资源路由一章
-
-//生成access_token，post访问Token类下的token方法
-Route::post(':version/token','api/:version.token/token');
 Route::post(':version/token/refresh','api/:version.token/refresh');
 
 //业务路由
-//Route::post(':version/user','api/:version.user/index');
-Route::post(':version/user/create','api/:version.user/create');
+//
 //用户登录
 Route::post(':version/user/login','api/:version.user/login');
 
@@ -54,7 +50,7 @@ Route::post(':version/Company/CompanyElecList','api/:version.Company/CompanyElec
 Route::post(':version/Company/CompanyLoadList','api/:version.Company/CompanyLoadList');
 
 //公司（列表）
-Route::post(':version/Company/companyList','api/:version.Company/companyList');
+Route::get(':version/Company/companyList','api/:version.Company/companyList');
 
 //概况
 Route::get(':version/Company/getCompanyData','api/:version.Company/getCompanyData');

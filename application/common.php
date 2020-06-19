@@ -23,11 +23,12 @@ function render_json($data = array(), $msg = '', $status = 0)
 {
     header('Content-type: application/json');
     $result = array();
+     $data = is_array($data) ? $data : ['info'=>$data];
     if ($data) {
         if (is_assoc($data)) {
             $result = $data;
         } else {
-            $result['list'] = $data;
+            $result['lists'] = $data;
         }
         $return = array_change_key_case($result,CASE_LOWER);
         array_case($return);

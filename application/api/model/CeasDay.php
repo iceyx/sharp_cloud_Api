@@ -23,6 +23,21 @@ class CeasDay extends Model
 				->find();
 	}
 
+	/**
+	 * 上个月度 电量
+	 * [getMouthElectri description]
+	 * @DateTime 2020-06-16T18:00:03+0800
+	 * @return   [type]                   [description]
+	 */
+	public static function getLastMouthElectri()
+	{
+		return CeasDay::alias('cd')
+				->field('sum(ACTIVE_ELECTRIC_QUANTITY) as mouthelectri')
+				->whereTime('STATISTICS_TIME', 'last month')
+				->find();
+	}
+
+
 
 	/**
 	 * [yearElectri 年度电量]
@@ -34,6 +49,21 @@ class CeasDay extends Model
 		return CeasDay::alias('cd')
 					->field('sum(ACTIVE_ELECTRIC_QUANTITY) as yearElectri')
 					->whereTime('STATISTICS_TIME', 'y')
+					->find();
+	}
+
+	/**
+	 *
+	 * 去年年度电量
+	 * [getYearElectri description]
+	 * @DateTime 2020-06-16T18:01:52+0800
+	 * @return   [type]                   [description]
+	 */
+	public static function getLastYearElectri()
+	{
+		return CeasDay::alias('cd')
+					->field('sum(ACTIVE_ELECTRIC_QUANTITY) as yearElectri')
+					->whereTime('STATISTICS_TIME', 'last year')
 					->find();
 	}
 }
