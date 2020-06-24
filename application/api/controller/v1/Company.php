@@ -117,20 +117,19 @@ class Company extends Api
 		$where = [];
 		if ($param['START_TIME']) {
 			$start_time = date('Y-m-1 00:00:00', strtotime($param['START_TIME']));
-			$where['START_TIME'][] = ['egt', $start_time];
+			//$where['STATISTICS_TIME'] = ['egt', $start_time];
 		}
 		if ($param['END_TIME']) {
 			$mdays = date('t', strtotime($param['END_TIME']));
 			$end_time = date('Y-m-'.$mdays.' 23:59:59',  strtotime($param['END_TIME']));
-			$where['END_TIME'][] = ['elt', $end_time];
+			//$where['STATISTICS_TIME'] = ['elt', $end_time];
 		}
+		$where['COMPANY_ID'] = $param['COMPANY_ID'];
 		$OFFSET = $param['OFFSET'] ? $param['OFFSET'] : 20;
 		$LIMIT = $param['LIMIT'] ? $param['LIMIT'] : 0;
-
-		$list = CaotspDay::getElecList($where,$LIMIT,$OFFSET);
-
-		$pie = CaotspDay::getElecPie($where);
-		if ($list) {
+		$list = CaotspDay::getElecList($where,$LIMIT,$OFFSET,$start_time, $end_time);
+		$pie = CaotspDay::getElecPie($where,$start_time, $end_time);
+		if (count($list)) {
 			foreach ($list as $key => $value) {
 				$sum = $value['PEAK_POWER'] + $value['VALLEY_POWER'] + $value['FLAT_POWER'] + $value['CUSP_POWER'];
 				$list[$key]['TOAL_POWER'] = $sum;
@@ -141,7 +140,7 @@ class Company extends Api
 			return render_json($arr);
 		}
 
-		return render_json('', '无数据',300);
+		return render_json('', '暂无数据',300);
 
 	}
 
@@ -198,9 +197,9 @@ class Company extends Api
 			}
 		}
 
-		$data[0]['name'] = '前天';
-		$data[1]['name'] = '前一天';
-		$array = array('0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0');
+		$data[0]['name'] = '今天';
+		$data[1]['name'] = '昨天';
+		$array = array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 		$data[0]['values'] = $yAxis ? array_values($yAxis) : $array;
 		$data[1]['values'] = $yAxis_past ? array_values($yAxis_past) : $array;
 
@@ -239,12 +238,12 @@ class Company extends Api
 
 		$newarr['yAxisUnit']='KWH';
 		$newarr['xAxisUnit']='时';
-		$newarr['data']=$data;
+		$newarr['lineData']=$data;
 		$newarr['xAxis']=$arr;
 		$newarr['item'] =implode(',',$data[0]['values']);
 		$newarr['item1'] =implode(',',$data[1]['values']);
 		$newarr['item2'] =implode(',',$arr);
-		return self::returnMsg(200,'success',$newarr);
+		return render_json($newarr);
 
 	}
 

@@ -28,9 +28,10 @@ class CaotspDay extends Model
 	 * @param    [type]
 	 * @return   [type]
 	 */
-	public static function getElecList($where, $limit, $offset)
+	public static function getElecList($where, $limit, $offset, $start_time, $end_time)
 	{
 		return CaotspDay::field("date_format(STATISTICS_TIME,'%Y-%m') as STATISTICS_TIME,sum(PEAK_POWER) as PEAK_POWER,sum(VALLEY_POWER) as VALLEY_POWER,sum(FLAT_POWER) as FLAT_POWER,sum(CUSP_POWER) as CUSP_POWER")
+						->whereTime('STATISTICS_TIME', 'between', [$start_time, $end_time])
 						->where($where)
 						->order('STATISTICS_TIME desc')
 						->group("date_format(STATISTICS_TIME,'%Y-%m')")
@@ -45,9 +46,10 @@ class CaotspDay extends Model
 	 * @DateTime 2020-05-25T10:29:26+0800
 	 * @param    string
 	 */
-	public static function getElecPie($where)
+	public static function getElecPie($where,$start_time, $end_time)
 	{
-		return CaotspDay::field('sum(PEAK_POWER) as PEAK_POWER,sum(VALLEY_POWER) as VALLEY_POWER,sum(FLAT_POWER) as FLAT_POWER,sum(CUSP_POWER) as CUSP_POWER')
+		 return CaotspDay::field('sum(PEAK_POWER) as PEAK_POWER,sum(VALLEY_POWER) as VALLEY_POWER,sum(FLAT_POWER) as FLAT_POWER,sum(CUSP_POWER) as CUSP_POWER')
+						->whereTime('STATISTICS_TIME', 'between', [$start_time, $end_time])
 						->where($where)
 						->select();
 	}
