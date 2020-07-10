@@ -115,16 +115,18 @@ class FaultInfo extends Model
 		$lowOutCabinet = RoomModuleApparatus::getApparatusNum($Company_id, '低压出线柜', '2');//低压出线柜多功能表
 		$metering  = RoomModuleApparatus::getApparatusNum($Company_id, '计量柜', '1');//计量柜电度表
 		$others = RoomModuleApparatus::getApparatusNum($Company_id, '其他', '2');//计量柜电度表
-
 		//查询变压器故障列表
-		$arr = [];
-		if(!empty($transformer)) $arr = array_merge($arr, $transformer);
-		if(!empty($protection)) $arr = array_merge($arr, $protection);
-		if(!empty($faultInstrument)) $arr = array_merge($arr, $faultInstrument);
-		if(!empty($lowInCabinet)) $arr = array_merge($arr, $lowInCabinet);
-		if(!empty($lowOutCabinet)) $arr = array_merge($arr, $lowOutCabinet);
-		if(!empty($metering)) $arr = array_merge($arr, $metering);
-		if(!empty($others)) $arr = array_merge($arr, $others);
+		$arr = array();
+		//$arr = array_merge((array)$transformer, (array)$protection, (array)$faultInstrument, (array)$lowInCabinet);
+		if(is_array($transformer)) $arr = array_merge($arr, $transformer);
+		if(is_array($protection)) $arr = array_merge($arr, $protection);
+		if(is_array($faultInstrument)) $arr = array_merge($arr, $faultInstrument);
+		if(is_array($lowInCabinet)){
+			$arr = array_merge($arr, $lowInCabinet);
+		};
+		if(is_array($lowOutCabinet)) $arr = array_merge($arr, $lowOutCabinet);
+		if(is_array($metering)) $arr = array_merge($arr, $metering);
+		if(is_array($others)) $arr = array_merge($arr, $others);
 		$str = $arr ? implode(',', $arr) : '-1';
 		return $str;
 	}

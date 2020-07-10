@@ -25,11 +25,11 @@ class Operation extends Api
 	public function companyList()
 	{
 		$param = $this->request->param('');
-		ValidataCommon::validateCheck(['USERID' => 'require'], $this->request->param('')); //参数验证
+		$uid = $this->user_id;
 		if (isset($param['CITYNAME']) && $param['CITYNAME']) {
-			$company_list = Company::getCompanyByUidCityName($param['USERID'],$param['CITYNAME']);
+			$company_list = Company::getCompanyByUidCityName($uid,$param['CITYNAME']);
 		}else{
-			$company_list = Company::getCompanyByUid($param['USERID']);
+			$company_list = Company::getCompanyByUid($uid);
 		}
 		if ($param['NAME']) {
 			foreach ($company_list as $key => $value) {
@@ -64,7 +64,7 @@ class Operation extends Api
 		}
 
 		
-		return self::returnMsg(200, 'success', $company_list);
+		return render_json($company_list);
 
 	}
 }

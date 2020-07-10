@@ -51,7 +51,7 @@ class RoomModuleApparatus extends Model
 											->leftJoin('cipd c', 'c.ID = t.APPARATUS_ID')
 											->where($where1)
 											->field('c.NAME, c.LINK_NUMBER')
-											->select();
+											->select()->toArray();
 				break;
 
 			case '1':
@@ -60,7 +60,7 @@ class RoomModuleApparatus extends Model
 											->leftJoin('electricity_meter e', 'e.ID = t.APPARATUS_ID')
 											->where($where1)
 											->field('e.NAME, e.LINK_NUMBER')
-											->select();
+											->select()->toArray();
 				break;
 			case '2':
 				$where['m.ID'] = ['exp', 'IS NOT NULL'];
@@ -68,7 +68,7 @@ class RoomModuleApparatus extends Model
 											->leftJoin('multimeter m', 'm.ID = t.APPARATUS_ID')
 											->where($where1)
 											->field('m.NAME, m.LINK_NUMBER')
-											->select();
+											->select()->toArray();
 				break;
 			case '3':
 				$where['w.ID'] = ['exp', 'IS NOT NULL'];
@@ -76,7 +76,7 @@ class RoomModuleApparatus extends Model
 											->leftJoin('temperature_controller w', 'w.ID = t.APPARATUS_ID')
 											->where($where1)
 											->field('w.NAME, w.LINK_NUMBER')
-											->select();
+											->select()->toArray();
 				break;
 
 			case '4':
@@ -85,7 +85,7 @@ class RoomModuleApparatus extends Model
 											->leftJoin('fault_meter f', 'f.ID = t.APPARATUS_ID')
 											->where($where1)
 											->field('f.NAME, f.LINK_NUMBER')
-											->select();
+											->select()->toArray();
 				break;
 			
 			default:
@@ -96,6 +96,6 @@ class RoomModuleApparatus extends Model
 		foreach ($res as $key => $value) {
 			$arr[] = $value['LINK_NUMBER'];
 		}
-		return $list ? $res : $arr;
+		return $arr;
 	}
 }

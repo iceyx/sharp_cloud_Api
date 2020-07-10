@@ -68,8 +68,6 @@ class Company extends Api
 							->find();
 		//最大负荷
 		$maxLoad = ClaasHour::getMaxLoad();
-		$mouthElectricity['mouthelectri'] =0.01;
-		$lastMouthElectricity['mouthelectri']  = 0.01;
 		$companyData = [];
 		$companyData['companyCount'] = $companyCount ? $companyCount : 0;
 		$companyData['pont'] = $ponit ? $ponit : 0;
@@ -153,6 +151,7 @@ class Company extends Api
 	public function CompanyLoadList()
 	{
 		$param = $this->request->param('');
+		//file_put_contents('log.txt',"\r\n \r\n".date('Y-m-d H:i:s',time())."\r\n ".'提交数据：'.json_encode($param),FILE_APPEND);
 		ValidataCommon::validateCheck(['COMPANY_ID' => 'require'], $this->request->param('')); //参数验证
 		if ($param['LOAD_TIME']) {
 			$START_TIME=date('Y-m-d H:i:s',(strtotime($param['LOAD_TIME'])));//选择开始时间
@@ -170,28 +169,28 @@ class Company extends Api
 
 		$arr=array('00:00','01:00','02:00','03:00','04:00','05:00','06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:59');
 
-		$yAxis='';
+		$yAxis = [];
 		if ($now_list) {
 			foreach ($arr as $a => $b) {
 				foreach ($now_list as $key => $value) {
 					if ($value['TIME1'] == $b) {
-						$yAxis[$b] = sprintf("%.2f", $value['AVERAGE_LOAD']);
+						$yAxis[$b] = (double) sprintf("%.2f", $value['AVERAGE_LOAD']);
 						break;
 					}else{
-						$yAxis[$b] = '';
+						$yAxis[$b] = 0;
 					}
 				}
 			}
 		}
-		$yAxis_past = '';
+		$yAxis_past = [];
 		if ($past_list) {
 			foreach ($arr as $a => $b) {
 				foreach ($past_list as $key => $value) {
 					if ($value['TIME1'] == $b) {
-						$yAxis_past[$b] = sprintf("%.2f", $value['AVERAGE_LOAD']);
+						$yAxis_past[$b] = (double) sprintf("%.2f", $value['AVERAGE_LOAD']);
 						break;
 					}else{
-						$yAxis_past[$b] = '';
+						$yAxis_past[$b] = 0;
 					}
 				}
 			}
@@ -214,24 +213,24 @@ class Company extends Api
 			$newarr['LARGEST_LOAD'] = '0.00';
 			$newarr['LARGEST_LOAD_TIME'] = '';
 			$newarr['MINIMUM_LOAD'] = '0.00';
-			$newarr['MINIMUM_LOAD_TIME'] = '';
+			$newarr['MINIMUM_LOAD_TIME'] = '0';
 		}else{
 			foreach ($now_list as $uniqid => $row) {
 			foreach ($row as $key => $value) {
 					$arrSort[$key][$uniqid] = $value;
 				}
 			}
-			$maxkey=array_search(max($arrSort['LARGEST_LOAD']),$arrSort['LARGEST_LOAD']);
-			$minkey=array_search(min($arrSort['MINIMUM_LOAD']),$arrSort['MINIMUM_LOAD']);
-			$newarr['PEAK_VALLEY_DIFFERENCE']=sprintf("%.2f",array_sum($arrSort['PEAK_VALLEY_DIFFERENCE'])/$num);
-			$newarr['PEAK_VALLEY_RATE']=sprintf("%.2f",array_sum($arrSort['PEAK_VALLEY_RATE'])*100/$num);
-			$newarr['AVERAGE_LOAD']=sprintf("%.2f",array_sum($arrSort['AVERAGE_LOAD'])/$num);
-			$newarr['LOAD_RATE']=sprintf("%.2f",array_sum($arrSort['LOAD_RATE'])*100/$num);
-			$newarr['LARGEST_LOAD']=sprintf("%.2f",max($arrSort['LARGEST_LOAD']))  ;
+			$maxkey= $arrSort['LARGEST_LOAD'] ? array_search(max($arrSort['LARGEST_LOAD']),$arrSort['LARGEST_LOAD']) : '0';
+			$minkey= $arrSort['MINIMUM_LOAD'] ? array_search(min($arrSort['MINIMUM_LOAD']),$arrSort['MINIMUM_LOAD']) : '0';
+			$newarr['PEAK_VALLEY_DIFFERENCE']= $arrSort['PEAK_VALLEY_DIFFERENCE'] ? sprintf("%.2f",array_sum($arrSort['PEAK_VALLEY_DIFFERENCE'])/$num) : '0';
+			$newarr['PEAK_VALLEY_RATE']= $arrSort['PEAK_VALLEY_RATE'] ? sprintf("%.2f",array_sum($arrSort['PEAK_VALLEY_RATE'])*100/$num) : '0';
+			$newarr['AVERAGE_LOAD']= $arrSort['AVERAGE_LOAD'] ? sprintf("%.2f",array_sum($arrSort['AVERAGE_LOAD'])/$num) : '0';
+			$newarr['LOAD_RATE']= $arrSort['LOAD_RATE'] ? sprintf("%.2f",array_sum($arrSort['LOAD_RATE'])*100/$num) : '0';
+			$newarr['LARGEST_LOAD']= $arrSort['LARGEST_LOAD'] ? sprintf("%.2f",max($arrSort['LARGEST_LOAD'])) : '0';
 
-			$newarr['LARGEST_LOAD_TIME']=$arrSort['LARGEST_LOAD_TIME'][$maxkey];
-			$newarr['MINIMUM_LOAD']=sprintf("%.2f",min($arrSort['MINIMUM_LOAD']));
-			$newarr['MINIMUM_LOAD_TIME']=$arrSort['MINIMUM_LOAD_TIME'][$minkey];
+			$newarr['LARGEST_LOAD_TIME']= $arrSort['LARGEST_LOAD_TIME']? $arrSort['LARGEST_LOAD_TIME'][$maxkey] : '0';
+			$newarr['MINIMUM_LOAD']= $arrSort['MINIMUM_LOAD'] ? sprintf("%.2f",min($arrSort['MINIMUM_LOAD'])) : '0';
+			$newarr['MINIMUM_LOAD_TIME']= $arrSort['MINIMUM_LOAD_TIME'][$minkey] ? $arrSort['MINIMUM_LOAD_TIME'][$minkey] : '0';
 			$newarr=array_change_key_case($newarr,CASE_LOWER);
 			array_case($newarr);
 		}
@@ -243,6 +242,7 @@ class Company extends Api
 		$newarr['item'] =implode(',',$data[0]['values']);
 		$newarr['item1'] =implode(',',$data[1]['values']);
 		$newarr['item2'] =implode(',',$arr);
+		//file_put_contents('log.txt',"\r\n \r\n".date('Y-m-d H:i:s',time())."\r\n ".'输出数据：'.json_encode($newarr),FILE_APPEND);
 		return render_json($newarr);
 
 	}
