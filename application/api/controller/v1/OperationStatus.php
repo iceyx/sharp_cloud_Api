@@ -104,7 +104,7 @@ class OperationStatus extends Api
 			$arr['jl2']['month_quantity'] = $month[0]['month'] ? sprintf("%.2f", $month[0]['month']) : 0.00;
 		}
 
-		return self::returnMsg(200, 'success', $arr);
+		return render_json($arr);
 
 	}
 	
