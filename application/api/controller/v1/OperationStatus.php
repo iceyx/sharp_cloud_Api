@@ -150,7 +150,7 @@ class OperationStatus extends Api
 		foreach ($typearr as $t_key => $t_val) {
 			foreach ($arr as $key => $value) {
 				if ($typearr[$t_key]['TYPE'] == $arr[$key]['TYPE']) {
-					$arr[$key]['STATUS'] = '1';
+					$arr[$key]['STATUS'] = 1;
 					break;
 				}
 			}
@@ -182,26 +182,30 @@ class OperationStatus extends Api
 				$active_powers+=$value['ACTIVE_POWER'];
 			}
 			$res['type'] = $arr;
-			$res['data']['active_power'] = $active_powers ? sprintf("%.2f", $active_powers) : 0.00;
-			$res['data']['day_quantity'] = $day[0]['month'] ? sprintf("%.2f", $day[0]['month']) : 0.00;
-			$res['data']['month_quantity'] = $month[0]['month'] ? sprintf("%.2f", $month[0]['month']) : 0.00;
+			$res['power']['active_power'] = $active_powers ? (float)sprintf("%.2f", $active_powers) : 0.00;
+			$res['power']['day_quantity'] = $day[0]['month'] ? (float)sprintf("%.2f", $day[0]['month']) : 0.00;
+			$res['power']['month_quantity'] = $month[0]['month'] ? (float)sprintf("%.2f", $month[0]['month']) : 0.00;
 			array_case($res);
-			return self::returnMsg(200, 'success', $res);
+			return render_json($res);
 	}
 
 
 	/**
 	 * 异常详情
 	 * @DateTime 2020-05-28T09:43:18+0800
-	 * @return   [type]
+	 * @return   [TYPE] 0-线损，1-功率因素，2没路过流，3-变压器超温，4-三相不平衡，5-变压器负责不匹配，6-窃电、认为浪费，7-谐波
 	 */
 	public function exceptionDetail()
 	{
 		$param = $this->request->param('');
 		ValidataCommon::validateCheck(['COMPANY_ID' => 'require'], $this->request->param('')); //参数验证
+		file_put_contents('log.txt',"\r\n \r\n".date('Y-m-d H:i:s',time())."\r\n ".'提交数据：'.json_encode($param),FILE_APPEND);
 		$type = $param['TYPE'] ? $param['TYPE'] : 0;
 
-		$where['TYPE'] = $type;
+		if ((int)$param['TYPE'] != -1) {
+			$where['TYPE'] = $type;
+		}
+		$where['COMPANY_ID'] = $param['COMPANY_ID'];
 		//默认开始日期从 去年今天开始
 		$START_TIME = date('Y-m-d H:i:s',($param['START_TIME'] ? strtotime($param['START_TIME']) : strtotime('-1 year')));
 		//结束时间当前时间 
@@ -216,7 +220,7 @@ class OperationStatus extends Api
 					->order('time desc')
 					->limit($LIMIT, $OFFSET)
 					->select();
-		return $res ? self::returnMsg(200, 'success', $res) :self::returnMsg(300, '无数据！', null);
+		return render_json($res);
 	}
 
 
