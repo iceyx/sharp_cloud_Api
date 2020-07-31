@@ -32,109 +32,130 @@ class DataQuery extends Api
 		ValidataCommon::validateCheck(['COMPANY_ID' => 'require'], $this->request->param('')); //参数验证
 		ValidataCommon::validateCheck(['CATEGORY' => 'require'], $this->request->param('')); //参数验证
 		$company_id = $param['COMPANY_ID'];
+		if ($param['FAULTID']){
+        	$w['ID'] = $param['FAULTID'];
+        	return FaultInfo::saveReading($w);
+        }
+		//file_put_contents('log.txt',"\r\n \r\n".date('Y-m-d H:i:s',time())."\r\n ".'提交数据：'.json_encode($param),FILE_APPEND);
 		$arr = [];
 		switch ($param['CATEGORY']) {
 			case '计量柜':
 				$res = RoomModuleApparatus::getApparatusNum($company_id, '计量柜', '1', true);
-				if(count($res) == 0) return self::returnMsg(300, '无数据', null);
+				if(!$res) break;
+				$data = [];
 				foreach ($res as $key => $value) {
 					$where['LINK_NUMBER'] = $value['LINK_NUMBER'];
 					$where['IS_READING'] = 0;
 					$number = FaultInfo::faultCount($where);
-					$res[$key]['STATUS'] = $number;
-					}
+					$data[$key] = $value;
+					$data[$key]['STATUS'] = $number;
+				}
 				
-				$arr = $res;
+				$arr = $data;
 				
 				break;
 			case '高压柜':
 				//高压柜故障仪
 				$res = RoomModuleApparatus::getApparatusNum($company_id, '高压柜', '4', true);
-				if (count($res) != 0) {
+				//高压柜综保列表
+				$reszb = RoomModuleApparatus::getApparatusNum($company_id, '高压柜', '0', true);
+
+				//if (!$res && !$reszb) break;
+
+				$resdata = [];
+				if ($res) {
 					foreach ($res as $k => $v) {
 						$where['LINK_NUMBER'] = $v['LINK_NUMBER'];
 						$wheres['LINK_NUMBER'] = $v['LINK_NUMBER'];
 						$wheres['IS_READING'] = 0;
 						$number = FaultInfo::faultCount($wheres);
 						$current_status  = ControlCommand::getStatus($where);
-						$res[$k]['STATUS'] = $number;
-						$res[$k]['CURRENT_STATUS'] = $current_status;
+						$resdata[$k] = $v;
+						$resdata[$k]['STATUS'] = $number;
+						$resdata[$k]['CURRENT_STATUS'] = $current_status['CURRENT_STATUS']?true:false;
 					}
 				}
-				
-				
-				//高压柜综保列表
-				$reszb = RoomModuleApparatus::getApparatusNum($company_id, '高压柜', '0', true);
-				if (count($res) == 0 && count($reszb) == 0) {
-					return self::returnMsg(300, '无数据！', null);
-				}
 
+				$zbdata = [];
 				$where['IS_READING'] = 0;
-				foreach ($reszb as $key => $value) {
-					$where1['LINK_NUMBER'] = $value['LINK_NUMBER'];
-					$wheres1['LINK_NUMBER'] = $value['LINK_NUMBER'];
-					$numbers = FaultInfo::faultCount($where);
-					$reszb[$key]['STATUS'] = $numbers;
-					$current_status1  = ControlCommand::getStatus($where1);
-					$reszb[$key]['STATUS'] = $numbers;
-					$reszb[$key]['CURRENT_STATUS'] = $current_status1;
+				if ($reszb) {
+					foreach ($reszb as $key => $value) {
+						$where1['LINK_NUMBER'] = $value['LINK_NUMBER'];
+						$where['LINK_NUMBER'] = $value['LINK_NUMBER'];
+						$numbers = FaultInfo::faultCount($where);
+						$current_status1  = ControlCommand::getStatus($where1);
+						$zbdata[$key] = $value;
+						$zbdata[$key]['STATUS'] = $numbers;
+						$zbdata[$key]['CURRENT_STATUS'] = $current_status1['CURRENT_STATUS']?true:false;
+					}
 				}
-				
-				$arr = ['gzy' => $res, 'zb'=> $reszb];
+			
+				$arr = ['gzy' => $resdata, 'zb'=> $zbdata];
 				
 				break;
 
 			case '变压器':
 				$res = RoomModuleApparatus::getApparatusNum($company_id, '变压器', '3', true);
-				if(count($res) == 0) return self::returnMsg(300, '无数据', null);
+				if(!$res) break;
 				$where['IS_READING'] = 0;
+				$data = [];
 				foreach ($res as $key => $value) {
 					$where['LINK_NUMBER'] = $value['LINK_NUMBER'];
 					$number = FaultInfo::faultCount($where);
-					$res[$key]['STATUS'] = $number;
+					$data[$key] = $value;
+					$data[$key]['STATUS'] = $number;
 				}
-				$arr = $res;
+				$arr = $data;
 				break;
 
 			case '低压进线柜':
 				$res = RoomModuleApparatus::getApparatusNum($company_id, '低压进线柜', '2', true);
-				if(count($res) == 0) return self::returnMsg(300, '无数据', null);
+				if(!$res) break;
 				$where['IS_READING'] = 0;
+				$data = [];
 				foreach ($res as $key => $value) {
 					$where['LINK_NUMBER'] = $value['LINK_NUMBER'];
+					$where1['LINK_NUMBER'] = $value['LINK_NUMBER'];
 					$number = FaultInfo::faultCount($where);
-					$res[$key]['STATUS'] = $number;
+					$current_status  = ControlCommand::getStatus($where1);
+					$data[$key] = $value;
+					$data[$key]['STATUS'] = $number;
+					$data[$key]['CURRENT_STATUS'] = $current_status['CURRENT_STATUS'] ? true:false;
 				}
-				$arr = $res;
+				$arr = $data;
 				break;
 			case '低压出线柜':
 				$res = RoomModuleApparatus::getApparatusNum($company_id, '低压出线柜', '2', true);
-				if(count($res) == 0) return self::returnMsg(300, '无数据', null);
+				if(!$res) break;
 				$where['IS_READING'] = 0;
+				$data = [];
 				foreach ($res as $key => $value) {
 					$where['LINK_NUMBER'] = $value['LINK_NUMBER'];
 					$number = FaultInfo::faultCount($where);
-					$res[$key]['STATUS'] = $number;
+					$data[$key] = $value;
+					$data[$key]['STATUS'] = $number;
 				}
-				$arr = $res;
+				$arr = $data;
 				break;
 			case '其他':
 				$res = RoomModuleApparatus::getApparatusNum($company_id, '其他', '2', true);
-				if(count($res) == 0) return self::returnMsg(300, '无数据', null);
+				if(!$res) break;
 				$where['IS_READING'] = 0;
+				$data = [];
 				foreach ($res as $key => $value) {
 					$where['LINK_NUMBER'] = $value['LINK_NUMBER'];
 					$number = FaultInfo::faultCount($where);
-					$res[$key]['STATUS'] = $number;
+					$data[$key] = $value;
+					$data[$key]['STATUS'] = $number;
 				}
-				$arr = $res;
+				$arr = $data;
 				break;
 			
 			default:
 				$arr = [];
 				break;
 		}
-		return self::returnMsg(200, 'success', $arr);
+		return render_json($arr);
 
 	}
 
@@ -228,7 +249,7 @@ class DataQuery extends Api
 			}
 		}
 
-		return self::returnMsg(200, 'success', $arr);
+		return render_json($arr);
 
 	}
 
@@ -1287,14 +1308,16 @@ class DataQuery extends Api
 	public function windosCommand()
 	{
 		$param = $this->request->param('');
+		$user_IP = ($_SERVER["HTTP_VIA"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER["REMOTE_ADDR"];
 		$where['LINK_NUMBER'] = $param['LINK_NUMBER'];
-		$data['USER_ID'] = $param['USERID'];
-		$user = User::getUserField($data, 'COMMAND');
+		$user_id = $this->user_id;
+		$wheredata['USER_ID'] = $user_id;
+		$user = User::getUserField($wheredata, 'COMMAND');
 		ValidataCommon::validateCheck(['LINK_NUMBER' => 'require'], $this->request->param('')); //参数验证
+		$reslut = '';
 		if ($user['COMMAND'] == $param['CODE']) {
 			$control_command = ControlCommand::getCommand($where);
 			if (empty($control_command)) {
-				$user_id = $param['USERID'];
 				switch ($param['TYPE']) {
 					case '高压柜':
 						$res = Db::name('cipd')->where($where)->field('NAME')->find();
@@ -1315,7 +1338,7 @@ class DataQuery extends Api
 					$data['IP_ADDRESS'] = $_SERVER["REMOTE_ADDR"];
 					$data['LINK_NUMBER'] = $param['LINK_NUMBER'];
 					$save['CURRENT_STATUS']=1;
-					ControlCommand::add($data);
+					$reslut = ControlCommand::add($data);
 				}
 			}else{
 				$save['CURRENT_STATUS'] = 0;
@@ -1329,10 +1352,12 @@ class DataQuery extends Api
 					$save['COMMAND_CONTENT']=0;
 				}
 
-				ControlCommand::update($where, $save);
+				$reslut = ControlCommand::updated($where,$save);
 			}
 
-		return returnMsg(200, '操作成功！', null);
+		return render_json($reslut);
+		}else{
+			return render_json('','指令错误！', 300);
 		}
 
 	}

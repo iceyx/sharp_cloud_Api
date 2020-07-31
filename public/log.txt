@@ -1,292 +1,301 @@
 
  
-2020-07-24 16:27:08
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-01 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:09:56
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u9ad8\u538b\u67dc","version":"v1"}
  
-2020-07-24 16:27:21
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-04 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:10:32
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u53d8\u538b\u5668","version":"v1"}
  
-2020-07-24 16:27:21
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-04 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:10:37
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 16:27:54
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-12 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","OFFSET":"10","LIMIT":"","version":"v1"}
+2020-07-29 10:10:38
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u51fa\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 16:28:31
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-12 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:12:25
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u9ad8\u538b\u67dc","version":"v1"}
  
-2020-07-24 16:28:33
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-12 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:12:32
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u9ad8\u538b\u67dc","version":"v1"}
  
-2020-07-24 16:28:34
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-12 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:12:37
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u9ad8\u538b\u67dc","version":"v1"}
  
-2020-07-24 16:31:32
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:12:39
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u53d8\u538b\u5668","version":"v1"}
  
-2020-07-24 16:40:08
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:12:47
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 16:40:21
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-13 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:15:07
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u51fa\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 16:46:24
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:15:52
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:47:07
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-12 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:15:58
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:48:06
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-20 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:16:02
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u9ad8\u538b\u67dc","version":"v1"}
  
-2020-07-24 16:48:06
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-20 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:17:59
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u53d8\u538b\u5668","version":"v1"}
  
-2020-07-24 16:48:06
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-20 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:18:00
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 16:48:36
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-11 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:20:51
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:48:36
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-11 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:20:54
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:48:36
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-11 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:20:56
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u9ad8\u538b\u67dc","version":"v1"}
  
-2020-07-24 16:48:37
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-11 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:22:04
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:48:37
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-11 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:22:25
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:49:35
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-05 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:23:37
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:49:35
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-05 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:23:41
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u9ad8\u538b\u67dc","version":"v1"}
  
-2020-07-24 16:49:35
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-05 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:23:53
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:49:36
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-05 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:23:58
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:49:36
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-05 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:25:16
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:49:36
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-05 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:25:20
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:49:37
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-05 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:25:31
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u9ad8\u538b\u67dc","version":"v1"}
  
-2020-07-24 16:51:14
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-06 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:25:33
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u53d8\u538b\u5668","version":"v1"}
  
-2020-07-24 16:51:14
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-06 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:27:13
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:51:14
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-06 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:27:18
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:51:14
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-06 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:29:08
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:51:15
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-06 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:29:12
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:51:15
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-06 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:29:23
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u53d8\u538b\u5668","version":"v1"}
  
-2020-07-24 16:51:15
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-06 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:31:33
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:51:15
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-06 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:31:43
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:51:15
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-06 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:31:54
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u9ad8\u538b\u67dc","version":"v1"}
  
-2020-07-24 16:51:15
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-06 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:32:44
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:51:29
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-06 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 10:32:52
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 16:51:29
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-06 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 10:32:58
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u9ad8\u538b\u67dc","version":"v1"}
  
-2020-07-24 16:56:46
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:33:05
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u53d8\u538b\u5668","version":"v1"}
  
-2020-07-24 16:59:23
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:33:21
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 17:06:23
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:33:28
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 17:13:28
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:33:45
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u9ad8\u538b\u67dc","version":"v1"}
  
-2020-07-24 17:14:36
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-13 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:34:11
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u53d8\u538b\u5668","version":"v1"}
  
-2020-07-24 17:14:36
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-13 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:36:51
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 17:15:17
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"0","START_TIME":"2016-07-13 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 10:36:58
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 17:17:24
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-13 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 10:37:33
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 17:17:29
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"0","START_TIME":"2016-07-13 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 10:37:37
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 17:27:05
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"2","START_TIME":"2016-07-13 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 10:38:57
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 17:27:09
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-13 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 10:38:59
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u9ad8\u538b\u67dc","version":"v1"}
  
-2020-07-24 17:27:15
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"0","START_TIME":"2016-07-13 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 10:39:03
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u53d8\u538b\u5668","version":"v1"}
  
-2020-07-24 17:27:46
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-13 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 10:39:06
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:27:57
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:39:10
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u51fa\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:28:51
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:39:12
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u5176\u4ed6","version":"v1"}
  
-2020-07-24 17:36:34
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:42:15
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 17:37:35
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:42:20
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u9ad8\u538b\u67dc","version":"v1"}
  
-2020-07-24 17:37:53
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:42:22
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u53d8\u538b\u5668","version":"v1"}
  
-2020-07-24 17:38:20
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:42:25
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:39:53
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:42:27
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u51fa\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:40:26
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:42:29
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u5176\u4ed6","version":"v1"}
  
-2020-07-24 17:40:45
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:43:01
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:42:32
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:47:40
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:44:27
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-04 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:47:57
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:45:08
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:48:49
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:45:15
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-05 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:50:07
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:45:15
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-05 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:52:08
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:48:09
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:53:12
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:48:17
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-06 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:53:21
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:48:17
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-06 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:53:29
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:50:09
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:55:16
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:50:16
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-04 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:55:49
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:50:16
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-04 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 10:56:13
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:51:28
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-12 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 10:57:12
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:51:28
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-12 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 10:59:53
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:51:28
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-12 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 11:01:12
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:51:29
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-12 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 11:01:40
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:51:29
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-12 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 11:10:26
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:51:29
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-12 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 11:11:08
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:51:29
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-12 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 11:12:34
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:52:49
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-12 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 11:12:47
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 17:54:05
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 11:14:06
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 17:57:12
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 11:14:10
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u9ad8\u538b\u67dc","version":"v1"}
  
-2020-07-24 17:58:59
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 11:14:12
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u53d8\u538b\u5668","version":"v1"}
  
-2020-07-24 17:59:42
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 11:14:14
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 18:00:29
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-05 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 11:14:15
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u51fa\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 18:00:30
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-05 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 11:14:17
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u5176\u4ed6","version":"v1"}
  
-2020-07-24 18:00:30
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-05 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 14:37:35
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 18:00:41
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 14:37:37
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u9ad8\u538b\u67dc","version":"v1"}
  
-2020-07-24 18:00:49
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-12 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 14:37:39
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u53d8\u538b\u5668","version":"v1"}
  
-2020-07-24 18:00:49
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-12 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 14:37:40
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 18:01:27
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2020-07-24 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 14:37:42
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","CATEGORY":"\u4f4e\u538b\u51fa\u7ebf\u67dc","version":"v1"}
  
-2020-07-24 18:01:36
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-11 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 14:38:08
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"6d44c4c511024304b5dd586923b13b29","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 18:01:36
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"-1","START_TIME":"2016-07-11 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"0","version":"v1"}
+2020-07-29 14:38:25
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"6d44c4c511024304b5dd586923b13b29","CATEGORY":"\u9ad8\u538b\u67dc","version":"v1"}
  
-2020-07-24 18:01:45
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"1","START_TIME":"2016-07-11 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 14:49:07
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"6d44c4c511024304b5dd586923b13b29","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 18:01:59
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"1","START_TIME":"2016-07-11 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 14:50:48
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"6d44c4c511024304b5dd586923b13b29","CATEGORY":"\u8ba1\u91cf\u67dc","version":"v1"}
  
-2020-07-24 18:02:40
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"0","START_TIME":"2016-07-11 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 14:50:51
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"6d44c4c511024304b5dd586923b13b29","CATEGORY":"\u9ad8\u538b\u67dc","version":"v1"}
  
-2020-07-24 18:03:00
- 提交数据：{"\/v1\/OperationStatus\/exceptionDetail":"","COMPANY_ID":"ed7bec3b47c340b4875d63705d550a87","TYPE":"4","START_TIME":"2016-07-11 00:00:00.000","END_TIME":"2020-07-24 23:59:59.000","LIMIT":"20","version":"v1"}
+2020-07-29 14:50:52
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"6d44c4c511024304b5dd586923b13b29","CATEGORY":"\u53d8\u538b\u5668","version":"v1"}
+ 
+2020-07-29 14:50:54
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"6d44c4c511024304b5dd586923b13b29","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","version":"v1"}
+ 
+2020-07-29 14:50:55
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"6d44c4c511024304b5dd586923b13b29","CATEGORY":"\u4f4e\u538b\u51fa\u7ebf\u67dc","version":"v1"}
+ 
+2020-07-29 14:50:59
+ 提交数据：{"\/v1\/DataQuery\/getEquitment":"","COMPANY_ID":"6d44c4c511024304b5dd586923b13b29","CATEGORY":"\u5176\u4ed6","version":"v1"}

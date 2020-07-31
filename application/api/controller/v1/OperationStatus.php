@@ -199,27 +199,29 @@ class OperationStatus extends Api
 	{
 		$param = $this->request->param('');
 		ValidataCommon::validateCheck(['COMPANY_ID' => 'require'], $this->request->param('')); //参数验证
-		file_put_contents('log.txt',"\r\n \r\n".date('Y-m-d H:i:s',time())."\r\n ".'提交数据：'.json_encode($param),FILE_APPEND);
+		//file_put_contents('log.txt',"\r\n \r\n".date('Y-m-d H:i:s',time())."\r\n ".'提交数据：'.json_encode($param),FILE_APPEND);
 		$type = $param['TYPE'] ? $param['TYPE'] : 0;
 
 		if ((int)$param['TYPE'] != -1) {
 			$where['TYPE'] = $type;
 		}
+		$page = $param['PAGE'] ? $param['PAGE'] : 1;
 		$where['COMPANY_ID'] = $param['COMPANY_ID'];
 		//默认开始日期从 去年今天开始
 		$START_TIME = date('Y-m-d H:i:s',($param['START_TIME'] ? strtotime($param['START_TIME']) : strtotime('-1 year')));
 		//结束时间当前时间 
 		$END_TIME = date('Y-m-d H:i:s',($param['END_TIME'] ? strtotime($param['END_TIME'])+86400 : time()));
-		$OFFSET = $param['OFFSET'] ? $param['OFFSET'] : 20;
-		$LIMIT = $param['LIMIT'] ? $param['LIMIT'] : 0;
+		$LIMIT = $param['LIMIT'] ? $param['LIMIT'] : 10;
 		$where['STATUS'] = 1;
-		$res = Db::name('exception')
+		$count = Db::name('exception')->where($where)->whereTime('TIME',[$START_TIME, $END_TIME])->count();
+		$res['lists'] = Db::name('exception')
 					->field('NAME, STATUS, CAUSE, TIME, ID, TYPE, COMPANY_ID')
 					->where($where)
 					->whereTime('TIME', [$START_TIME, $END_TIME])
 					->order('time desc')
-					->limit($LIMIT, $OFFSET)
+					->limit($LIMIT * ($page - 1), $LIMIT)
 					->select();
+		$res['total'] = $count;
 		return render_json($res);
 	}
 

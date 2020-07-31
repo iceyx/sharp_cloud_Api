@@ -11,6 +11,17 @@ class FaultInfo extends Model
 {	
 
 	/**
+	 * 修改指令
+	 * @DateTime 2020-07-29T11:55:32+0800
+	 * @param    string                   $where [description]
+	 * @return   [type]                          [description]
+	 */
+	public static function saveReading($where='')
+	{
+		return FaultInfo::where($where)->setField('IS_READING',1);
+	}
+
+	/**
 	 * 故障详情
 	 * @DateTime 2020-05-27T17:10:43+0800
 	 * @param    [type]

@@ -31,7 +31,7 @@ class RoomModuleApparatus extends Model
 	 * @param    string
 	 * @return   [type]
 	 */
-	public static function getApparatusNum($company_id, $type_name = '', $apparatus_type = '', $list = false)
+	public static function getApparatusNum($company_id, $type_name = '', $apparatus_type = '', $name = false)
 	{
 		$where['t.COMPANY_ID'] = ['eq',$company_id];
 		$where['s.NAME'] = ['like', $type_name];
@@ -45,45 +45,44 @@ class RoomModuleApparatus extends Model
 		$where1['t.ROOM_MODULE_ID'] = ['eq', $module_id];
 		switch ($apparatus_type) {
 			case '0':
-				
-				$where['c.ID'] = ['exp', 'IS NOT NULL'];
 				$res = RoomModuleApparatus::alias('t')
 											->leftJoin('cipd c', 'c.ID = t.APPARATUS_ID')
 											->where($where1)
+											->whereNotNull('c.ID')
 											->field('c.NAME, c.LINK_NUMBER')
 											->select()->toArray();
 				break;
 
 			case '1':
-				$where['e.ID'] = ['exp', 'IS NOT NULL'];
 				$res = RoomModuleApparatus::alias('t')
 											->leftJoin('electricity_meter e', 'e.ID = t.APPARATUS_ID')
 											->where($where1)
+											->whereNotNull('e.ID')
 											->field('e.NAME, e.LINK_NUMBER')
 											->select()->toArray();
 				break;
 			case '2':
-				$where['m.ID'] = ['exp', 'IS NOT NULL'];
 				$res = RoomModuleApparatus::alias('t')
 											->leftJoin('multimeter m', 'm.ID = t.APPARATUS_ID')
 											->where($where1)
+											->whereNotNull('m.ID')
 											->field('m.NAME, m.LINK_NUMBER')
 											->select()->toArray();
 				break;
 			case '3':
-				$where['w.ID'] = ['exp', 'IS NOT NULL'];
 				$res = RoomModuleApparatus::alias('t')
 											->leftJoin('temperature_controller w', 'w.ID = t.APPARATUS_ID')
 											->where($where1)
+											->whereNotNull('w.ID')
 											->field('w.NAME, w.LINK_NUMBER')
 											->select()->toArray();
 				break;
 
 			case '4':
-				$where['f.ID'] = ['exp', 'IS NOT NULL'];
 				$res = RoomModuleApparatus::alias('t')
 											->leftJoin('fault_meter f', 'f.ID = t.APPARATUS_ID')
 											->where($where1)
+											->whereNotNull('f.ID')
 											->field('f.NAME, f.LINK_NUMBER')
 											->select()->toArray();
 				break;
@@ -93,9 +92,16 @@ class RoomModuleApparatus extends Model
 				break;
 		}
 		$arr = '';
-		foreach ($res as $key => $value) {
-			$arr[] = $value['LINK_NUMBER'];
+		if ($name) {
+			foreach ($res as $key => $value) {
+				$arr[$key] = $value;
+			}
+		}else{
+			foreach ($res as $key => $value) {
+				$arr[$key] = $value['LINK_NUMBER'];
+			}
 		}
+		
 		return $arr;
 	}
 }

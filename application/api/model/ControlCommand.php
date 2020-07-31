@@ -47,8 +47,8 @@ class ControlCommand extends Model
 	 * @DateTime 2020-05-29T17:30:57+0800
 	 * @param    string
 	 */
-	public static function update($where, $data)
-	{
+	public static function updated($where,$data)
+	{	
 		return ControlCommand::where($where)->update($data);
 	}
 }

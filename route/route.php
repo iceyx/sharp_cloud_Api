@@ -79,6 +79,9 @@ Route::post(':version/DataQuery/getEquitment','api/:version.DataQuery/getEquitme
 //数据查询接口(实时，历史)
 Route::post(':version/DataQuery/getDataList','api/:version.DataQuery/getDataList');
 
+//修改指令
+Route::post(':version/DataQuery/windosCommand','api/:version.DataQuery/windosCommand');
+
 //图像接口
 Route::post(':version/DataQuery/figure','api/:version.DataQuery/figure');
 
@@ -87,3 +90,4 @@ Route::post(':version/EnergyAnalysis/LoadList','api/:version.EnergyAnalysis/Load
 
 //报装分析
 Route::post(':version/EnergyAnalysis/demandAnalysis','api/:version.EnergyAnalysis/demandAnalysis');
+
