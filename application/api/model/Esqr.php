@@ -18,8 +18,9 @@ class Esqr extends Model
 	 * @return   [type]
 	 */
 	public static function getList($where, $LIMIT, $OFFSET)
-	{
-		return Esqr::where($where)->limit($LIMIT, $OFFSET)->select();
+	{	
+		//>limit($LIMIT * ($OFFSET - 1), $LIMIT)
+		return Esqr::where($where)->order('START_TIME', 'desc')->select()->toArray();
 	}
 
 
@@ -30,7 +31,8 @@ class Esqr extends Model
 	 */
 	public static function add($data)
 	{
-		return Esqr::insertGetId($data);
+		Esqr::insertGetId($data);
+		return true;
 	}
 
 
@@ -40,7 +42,7 @@ class Esqr extends Model
 	 * @param    [type]
 	 * @return   [type]
 	 */
-	public static function delete($where)
+	public static function notSoftdelete($where)
 	{
 		return Esqr::where($where)->delete();
 	}

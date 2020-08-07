@@ -110,9 +110,10 @@ class ClaasHour extends Model
 	 * @param    [type]
 	 * @return   [type]
 	 */
-	public static function getTimeData($where, $field)
-	{
-		return ClaasHour::where($where)->field($field)->find();
+	public static function getTimeData($where,$whereTime, $field)
+	{	
+		//dump($whereTime);exit;
+		return ClaasHour::where($where)->whereTime('LOAD_TIME',$whereTime)->field($field)->find()->toArray();
 	}
 
 
@@ -122,9 +123,9 @@ class ClaasHour extends Model
 	 * @param    [type]
 	 * @return   [type]
 	 */
-	public static function getWeek($field)
+	public static function getWeek($where,$whereT,$field)
 	{
-		return ClaasHour::whereTime('LOAD_TIME','week')->select();
+		return ClaasHour::whereTime('LOAD_TIME',$where)->whereTime('LOAD_TIME', $whereT)->select();
 	}
 
 

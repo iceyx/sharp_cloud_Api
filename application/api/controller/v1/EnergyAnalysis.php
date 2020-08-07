@@ -22,13 +22,14 @@ class EnergyAnalysis extends Api
 	public function LoadList()
 	{
 		$param = $this->request->param('');
+		logTxt($param);
 		ValidataCommon::validateCheck(['COMPANY_ID' => 'require'], $this->request->param('')); //参数验证
-		$USERID = $param['USERID'];
-		$OFFSET = $param['OFFSET'] ? $param['OFFSET'] : 20;
+		$USERID = $this->user_id;
+		$page = $param['PAGE'] ? $param['PAGE'] : 1;
 		$LIMIT = $param['LIMIT'] ? $param['LIMIT'] : 0;
 		$where['COMPANY_ID'] = $param['COMPANY_ID'];
 		$where['USER_ID'] = $USERID;
-		$list = Esqr::getList($where, $LIMIT, $OFFSET);
+		$list = Esqr::getList($where, $LIMIT, $page);
 		foreach ($list as $key => $value) {
 			if ($value['AVERAGE_LOAD_PRE5'] >= $value['AVERAGE_LOAD']) {
 				 //减少
@@ -39,7 +40,7 @@ class EnergyAnalysis extends Api
 			}
 		}
 
-		return count($list) ? self::returnMsg(200, 'success', $list) : self::returnMsg(300, '无数据!', null);
+		return render_json($list);
 	}
 
 
@@ -51,34 +52,33 @@ class EnergyAnalysis extends Api
 	{
 		$param = $this->request->param('');
 		ValidataCommon::validateCheck(['COMPANY_ID' => 'require'], $this->request->param('')); //参数验证
-		$USERID = $param['USERID'];
+		$USERID = $this->user_id;
 		$starttime=DATE('Y-m-d',strtotime($param['START_TIME']));
 		$endtime=DATE('Y-m-d',strtotime($param['END_TIME']));
-		if ($starttime == $endtime) {
-			return self::returnMsg(300, '请选择同一天时间段！');
+		if ($starttime != $endtime) {
+			return render_json('', '请选择同一天时间段！',201);
 		}
 
 
-
-		$where['LOAD_TIME'] = ['between', [$param['START_TIME'] , $param['END_TIME']]];
-
+		$whereTime =[$param['START_TIME'] , $param['END_TIME']];
 
 
 		$where['COMPANY_ID'] = $param['COMPANY_ID'];
 		$field = 'avg(AVERAGE_LOAD) as AVERAGE_LOAD';
-		$list = ClaasHour::getTimeData($where, $field);// 选择时间段的平均负荷
-		if (count($list) == 0) {
-			return self::returnMsg(300, '无数据',null);
+		$list = ClaasHour::getTimeData($where,$whereTime, $field);// 选择时间段的平均负荷
+		if (!$list['AVERAGE_LOAD']) {
+			return render_json('', '该时间段无数据~', 201);
 		}
-
-		$weekData = ClaasHour::getWeek($field);
-
+		$fday = date('y-m-d', strtotime('-5 days', strtotime($starttime)));
+		$weekwehreT = [$starttime, $endtime];
+		$weekwehre = [$fday, $starttime];
+		$weekData = ClaasHour::getWeek($weekwehre,$weekwehreT, $field);
 		$avg1 = sprintf('%.1f', $list['AVERAGE_LOAD']);
 		$avg2 = sprintf('%.1f', $weekData['AVERAGE_LOAD_PRE5']);//获取本周数据
-
 		$reduce_load = $avg2 - $avg1;
 
-		$data['REDUCE_LOAD'] = ads('$reduce_load');
+		//$data['REDUCE_LOAD'] = ads($reduce_load);
+		$data['REDUCE_LOAD'] = $reduce_load;
 		$data['ID'] = md5($USERID.time());
 		$data['COMPANY_ID'] = $param['COMPANY_ID'];
 		$data['AVERAGE_LOAD'] = $avg1;
@@ -86,10 +86,8 @@ class EnergyAnalysis extends Api
 		$data['START_TIME'] = $param['START_TIME'];
 		$data['END_TIME'] = $param['END_TIME'];
 		$data['USER_ID'] = $USERID;
-
 		$res = Esqr::add($data);
-
-		return $res ? self::returnMsg(200, '添加成功！',$res) : self::returnMsg(300, '添加失败', null);
+		return render_json($res);
 	}
 
 
@@ -104,8 +102,8 @@ class EnergyAnalysis extends Api
 		$param = $this->request->param('');
 		ValidataCommon::validateCheck(['ID' => 'require'], $this->request->param('')); //参数验证
 		$where['ID'] = $param['ID'];
-		$res = Esqr::delete($where);
-		return $res ? self::returnMsg(200, '删除成功',$res) : self::returnMsg(300, '删除失失败', null);
+		$res = Esqr::notSoftdelete($where);
+		return render_json($res);
 	}
 
 	/**
@@ -119,17 +117,15 @@ class EnergyAnalysis extends Api
 		ValidataCommon::validateCheck(['COMPANY_ID' => 'require'], $this->request->param('')); //参数验证
 		$where['COMPANY_ID'] = $param['COMPANY_ID'];
 		$elect_pie = CaotspDay::getElecPieByTime($where);
-		
+		$arr = '';
 		if (count($elect_pie)) {
 			$spike = ($elect_pie[0]['PEAK_POWER'] + $elect_pie[0]['CUSP_POWER']) * 0.36;//计算尖峰电量
 			$arr['data'] = $elect_pie;
 			$money = sprintf('%.2f', $spike);
 			$str = "温馨提示：目前尖峰电量占比比较高，建议降低在尖峰时段负荷。大概节约{$money}电费";
 			$arr['proposal'] = urlencode($str);
-			return self::returnMsg(200, 'success', $arr);
 		}
-
-		return self::returnMsg(300, '无数据！', null);
+		return render_json($arr);
 
 	}
 
@@ -165,13 +161,8 @@ class EnergyAnalysis extends Api
 					$reporting[$key]['INFO'] = '建议：更换为需量报装方式可节省'.$value['PRICE_SPREAD'];
 				}
 			}
-
-
-			return self::returnMsg(200, 'success', $reporting);
 		}
-
-		return self::returnMsg(300, '无数据！',null);
-
+		return render_json($reporting);
 
 	}
 

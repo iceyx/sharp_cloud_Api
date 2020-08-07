@@ -88,6 +88,9 @@ Route::post(':version/DataQuery/figure','api/:version.DataQuery/figure');
 //负荷分析列表
 Route::post(':version/EnergyAnalysis/LoadList','api/:version.EnergyAnalysis/LoadList');
 
+//添加负荷分析
+Route::post(':version/EnergyAnalysis/addList','api/:version.EnergyAnalysis/addList');
+
 //报装分析
 Route::post(':version/EnergyAnalysis/demandAnalysis','api/:version.EnergyAnalysis/demandAnalysis');
 

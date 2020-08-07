@@ -13,6 +13,11 @@
 // 
 error_reporting(E_ALL & ~E_NOTICE);
 
+
+function logTxt($param){
+    return file_put_contents('log.txt',"\r\n \r\n".date('Y-m-d H:i:s',time())."\r\n ".'提交数据：'.json_encode($param),FILE_APPEND);
+}
+
 /**
  * 通用API接口数据输出
  * @param string $msg
@@ -206,7 +211,8 @@ function delete_dir_file($dir_name)
  * @return   [type]
  */
 function array_case(&$array, $case=CASE_LOWER)
-{
+{   
+    //ini_set("memory_limit", "1024M");
     $array = array_change_key_case($array, $case);
     foreach ($array as $key => $value) {
         if (is_array($value)) {

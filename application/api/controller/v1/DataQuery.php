@@ -36,7 +36,6 @@ class DataQuery extends Api
         	$w['ID'] = $param['FAULTID'];
         	return FaultInfo::saveReading($w);
         }
-		//file_put_contents('log.txt',"\r\n \r\n".date('Y-m-d H:i:s',time())."\r\n ".'提交数据：'.json_encode($param),FILE_APPEND);
 		$arr = [];
 		switch ($param['CATEGORY']) {
 			case '计量柜':
@@ -172,7 +171,7 @@ class DataQuery extends Api
 		ValidataCommon::validateCheck(['HIS_NOW' => 'require'], $this->request->param('')); //参数验证历史数据还是实时数据
 		ValidataCommon::validateCheck(['CATEGORY' => 'require'], $this->request->param('')); //参数验证分类
 
-
+		//logTxt($param);
 		//暂时这样处理，以后再优化。1、2的差距只有时间查询条件
 		if ($param['HIS_NOW'] == 1) {
 			$list = $this->realTimeData($param);
@@ -212,7 +211,6 @@ class DataQuery extends Api
 			'STATUS_B'=>'B相状态',
 			'STATUS_C'=>'C相状态'
 		];
-
 		foreach ($list as $key => $value) {
 			$arr[$key]['time'] = $value['TIME'];
 			foreach ($value as $k => $v) {
@@ -224,9 +222,9 @@ class DataQuery extends Api
 					}
 
 					if (is_numeric($v)) {
-						$arr[$key]['list'][] = ['name' => $array[$k], 'value' => sprintf("%.2f", $v)];
+						$arr[$key]['item'][] = ['name' => $array[$k], 'value' => sprintf("%.2f", $v)];
 					}else{
-						$arr[$key]['list'][] = ['name' => $array[$k], 'value' =>$v];
+						$arr[$key]['item'][] = ['name' => $array[$k], 'value' =>$v];
 					}
 					
 
@@ -818,7 +816,7 @@ class DataQuery extends Api
 		
 		$field = 'TIME, LINK_NUMBER';
 		$where['LINK_NUMBER'] = ['eq', $param['LINK_NUMBER']];
-		$OFFSET = $param['OFFSET'] ? $param['OFFSET'] : 20;
+		$page = $param['PAGE'] != -1 ? $param['PAGE'] : 1;
 		$LIMIT = $param['LIMIT'] ? $param['LIMIT'] : 0;
 		//dump($whereTime);exit;
 		switch ($param['CATEGORY']) {
@@ -827,38 +825,38 @@ class DataQuery extends Api
 				$list = [];
 				switch ($param['TYPE']) {
 					case '三相电流':
-						$field = $field.',CURRENT_A, CURRENT_B, CURRENT_C';
+						$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C';
 						break;
 					case '三相电压':
-						$field = $field.',VOLTAGE_A, VOLTAGE_B, VOLTAGE_C';
+						$field = $field.',CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C';
 						break;
 					case '功率因数':
-						$field = $field.',POWER_FACTOR';
+						$field = $field.',CONCAT(POWER_FACTOR, " ", "cosΦ") AS POWER_FACTOR';
 						break;
 					case '有功电量':
-						$field = $field.',ACTIVE_ELECTRICITY';
+						$field = $field.',CONCAT(ACTIVE_ELECTRICITY, " ", "KWH") AS ACTIVE_ELECTRICITY';
 						break;
 					case '无功电量':
-						$field = $field.',REACTIVE_ELECTRICITY';
+						$field = $field.',CONCAT(REACTIVE_ELECTRICITY, " ", "kVarh") AS REACTIVE_ELECTRICITY';
 						break;
 					case '有功功率':
-						$field = $field.',ACTIVE_POWER';
+						$field = $field.',CONCAT(ACTIVE_POWER, " ", "kW") AS ACTIVE_POWER';
 						break;
 					case '无功功率':
-						$field = $field.',REACTIVE_POWER';
+						$field = $field.',CONCAT(REACTIVE_POWER, " ", "kVar") AS REACTIVE_POWER';
 						break;
 					case '频率':
-						$field = $field.',FREQUENCY';
+						$field = $field.',CONCAT(FREQUENCY, " ", "Hz") AS FREQUENCY';
 						break;
 					default:
-						$field = $field.', CURRENT_A, CURRENT_B, CURRENT_C, VOLTAGE_A, VOLTAGE_B, VOLTAGE_C, POWER_FACTOR, ACTIVE_ELECTRICITY, REACTIVE_ELECTRICITY, ACTIVE_POWER, REACTIVE_POWER, FREQUENCY';
+						$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C ,CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C, CONCAT(POWER_FACTOR, " ", "cosΦ") AS POWER_FACTOR, CONCAT(ACTIVE_ELECTRICITY, " ", "KWH") AS ACTIVE_ELECTRICITY,CONCAT(REACTIVE_ELECTRICITY, " ", "kVarh") AS REACTIVE_ELECTRICITY,CONCAT(ACTIVE_POWER, " ", "kW") AS ACTIVE_POWER,CONCAT(REACTIVE_POWER, " ", "kVar") AS REACTIVE_POWER,CONCAT(FREQUENCY, " ", "Hz") AS FREQUENCY';
 						break;
 				}
 				$list = Db::name('electricity_meter_data_history')
 							->field($field)
 							->whereTime('TIME', 'd')
 							->where($where)
-							->limit($LIMIT, $OFFSET)
+							->limit($LIMIT * ($page - 1), $LIMIT)
 							->order('TIME desc')
 							->select();
 				break;
@@ -869,13 +867,13 @@ class DataQuery extends Api
 					//三相电流、三相电压、功率因数、有功电量、无功电量、有功功率、无功功率、频率
 					switch ($param['TYPE']) {
 						case '三相电流':
-							$field = $field.',CURRENT_A, CURRENT_B, CURRENT_C';
+							$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C';
 							break;
 						case '三相电压':
-							$field = $field.',VOLTAGE_A, VOLTAGE_B, VOLTAGE_C';
+							$field = $field.',CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C';
 							break;
 						default:
-							$field = $field.',CURRENT_A, CURRENT_B, CURRENT_C, VOLTAGE_A, VOLTAGE_B, VOLTAGE_C';
+							$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C ,CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C';
 							break;
 					}
 
@@ -883,7 +881,7 @@ class DataQuery extends Api
 								->field($field)
 								->whereTime('TIME', 'd')
 								->where($where)
-								->limit($LIMIT, $OFFSET)
+								->limit($LIMIT * ($page - 1), $LIMIT)
 								->order('TIME DESC')
 								->select();
 				}
@@ -894,7 +892,7 @@ class DataQuery extends Api
 								->field($field)
 								->whereTime('TIME', 'd')
 								->where($where)
-								->limit($LIMIT, $OFFSET)
+								->limit($LIMIT * ($page - 1), $LIMIT)
 								->order('TIME DESC')
 								->select();
 				}
@@ -903,13 +901,13 @@ class DataQuery extends Api
 
 			case '变压器':
 				//$param['TYPE']=='温度';
-				$field =$field.',TEMPERATURE_A, TEMPERATURE_B, TEMPERATURE_C, STARTING_STATUS, CLOSED_STATUS';
+				$field =$field.',CONCAT(TEMPERATURE_A, " ", "℃") AS TEMPERATURE_A, CONCAT(TEMPERATURE_B, " ", "℃") AS TEMPERATURE_B, CONCAT(TEMPERATURE_C, " ", "℃") AS TEMPERATURE_C, STARTING_STATUS, CLOSED_STATUS';
 
 				$list = Db::name('temperature_controller_data_history')
-							->field($where)
+							->field($field)
 							->whereTime('TIME', 'd')
 							->where($where)
-							->limit($LIMIT, $OFFSET)
+							->limit($LIMIT * ($page - 1), $LIMIT)
 							->order('TIME DESC')
 							->select();
 				break;
@@ -917,40 +915,40 @@ class DataQuery extends Api
 			case '低压进线柜':
 				switch ($param['TYPE']) {
 					case '三相电流':
-						$field = $field.',CURRENT_A, CURRENT_B, CURRENT_C';
+						$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C';
 						break;
 					case '三相电压':
-						$field = $field.',VOLTAGE_A, VOLTAGE_B, VOLTAGE_C';
+						$field = $field.',CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C';
 						break;
 					case '功率因数':
-						$field = $field.',POWER_FACTOR';
+						$field = $field.',CONCAT(POWER_FACTOR, " ", "cosΦ") AS POWER_FACTOR';
 						break;
 					case '有功电量':
-						$field = $field.',ACTIVE_ELECTRICITY';
+						$field = $field.',CONCAT(ACTIVE_ELECTRICITY, " ", "KWH") AS ACTIVE_ELECTRICITY';
 						break;
 					case '无功电量':
-						$field = $field.',REACTIVE_ELECTRICITY';
+						$field = $field.',CONCAT(REACTIVE_ELECTRICITY, " ", "kVarh") AS REACTIVE_ELECTRICITY';
 						break;
 					case '有功功率':
-						$field = $field.',ACTIVE_POWER';
+						$field = $field.',CONCAT(ACTIVE_POWER, " ", "kW") AS ACTIVE_POWER';
 						break;
 					case '无功功率':
-						$field = $field.',REACTIVE_POWER';
+						$field = $field.',CONCAT(REACTIVE_POWER, " ", "kVar") AS REACTIVE_POWER';
 						break;
 					case '频率':
-						$field = $field.',FREQUENCY';
+						$field = $field.',CONCAT(FREQUENCY, " ", "Hz") AS FREQUENCY';
 						break;
 					case '三相谐波电流':
-						$field = $field.',HARMONIC_CURRENT_A, HARMONIC_CURRENT_B, HARMONIC_CURRENT_C';
+						$field = $field.',CONCAT(HARMONIC_CURRENT_A, " ", "A") AS HARMONIC_CURRENT_A, CONCAT(HARMONIC_CURRENT_B, " ", "A") AS HARMONIC_CURRENT_B, CONCAT(HARMONIC_CURRENT_C, " ", "A") AS HARMONIC_CURRENT_C';
 						break;
 					case '三相谐波电压':
-						$field = $field.',HARMONIC_VOLTAGE_A, HARMONIC_VOLTAGE_B, HARMONIC_VOLTAGE_C';
+						$field = $field.',CONCAT(HARMONIC_VOLTAGE_A, " ", "A") AS HARMONIC_VOLTAGE_A, CONCAT(HARMONIC_VOLTAGE_B, " ", "A") AS HARMONIC_VOLTAGE_B, CONCAT(HARMONIC_VOLTAGE_C, " ", "A") AS HARMONIC_VOLTAGE_C';
 						break;
 					case '需量':
 						$field = $field.',DEMAND';
 						break;
 					default:
-						$field = $field.', CURRENT_A, CURRENT_B, CURRENT_C, VOLTAGE_A, VOLTAGE_B, VOLTAGE_C, POWER_FACTOR, ACTIVE_ELECTRICITY, REACTIVE_ELECTRICITY, ACTIVE_POWER, REACTIVE_POWER, FREQUENCY,HARMONIC_CURRENT_A, HARMONIC_CURRENT_B, HARMONIC_CURRENT_C, HARMONIC_VOLTAGE_A, HARMONIC_VOLTAGE_B, HARMONIC_VOLTAGE_C, DEMAND, BREAK_STATUS';
+						$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C ,CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C, CONCAT(POWER_FACTOR, " ", "cosΦ") AS POWER_FACTOR, CONCAT(ACTIVE_ELECTRICITY, " ", "KWH") AS ACTIVE_ELECTRICITY,CONCAT(REACTIVE_ELECTRICITY, " ", "kVarh") AS REACTIVE_ELECTRICITY,CONCAT(ACTIVE_POWER, " ", "kW") AS ACTIVE_POWER,CONCAT(REACTIVE_POWER, " ", "kVar") AS REACTIVE_POWER,CONCAT(FREQUENCY, " ", "Hz") AS FREQUENCY,CONCAT(HARMONIC_CURRENT_A, " ", "A") AS HARMONIC_CURRENT_A, CONCAT(HARMONIC_CURRENT_B, " ", "A") AS HARMONIC_CURRENT_B, CONCAT(HARMONIC_CURRENT_C, " ", "A") AS HARMONIC_CURRENT_C,CONCAT(HARMONIC_VOLTAGE_A, " ", "A") AS HARMONIC_VOLTAGE_A, CONCAT(HARMONIC_VOLTAGE_B, " ", "A") AS HARMONIC_VOLTAGE_B, CONCAT(HARMONIC_VOLTAGE_C, " ", "A") AS HARMONIC_VOLTAGE_C';
 						break;
 				}
 
@@ -958,7 +956,7 @@ class DataQuery extends Api
 							->field($field)
 							->whereTime('TIME', 'd')
 							->where($where)
-							->limit($LIMIT, $OFFSET)
+							->limit($LIMIT * ($page - 1), $LIMIT)
 							->order('TIME DESC')
 							->select();
 				break;
@@ -966,38 +964,38 @@ class DataQuery extends Api
 			case '低压出线柜':
 				switch ($param['TYPE']) {
 					case '三相电流':
-						$field = $field.',CURRENT_A, CURRENT_B, CURRENT_C';
+						$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C';
 						break;
 					case '三相电压':
-						$field = $field.',VOLTAGE_A, VOLTAGE_B, VOLTAGE_C';
+						$field = $field.',CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C';
 						break;
 					case '功率因数':
-						$field = $field.',POWER_FACTOR';
+						$field = $field.',CONCAT(POWER_FACTOR, " ", "cosΦ") AS POWER_FACTOR';
 						break;
 					case '有功电量':
-						$field = $field.',ACTIVE_ELECTRICITY';
+						$field = $field.',CONCAT(ACTIVE_ELECTRICITY, " ", "KWH") AS ACTIVE_ELECTRICITY';
 						break;
 					case '无功电量':
-						$field = $field.',REACTIVE_ELECTRICITY';
+						$field = $field.',CONCAT(REACTIVE_ELECTRICITY, " ", "kVarh") AS REACTIVE_ELECTRICITY';
 						break;
 					case '有功功率':
-						$field = $field.',ACTIVE_POWER';
+						$field = $field.',CONCAT(ACTIVE_POWER, " ", "kW") AS ACTIVE_POWER';
 						break;
 					case '无功功率':
-						$field = $field.',REACTIVE_POWER';
+						$field = $field.',CONCAT(REACTIVE_POWER, " ", "kVar") AS REACTIVE_POWER';
 						break;
 					case '频率':
-						$field = $field.',FREQUENCY';
+						$field = $field.',CONCAT(FREQUENCY, " ", "Hz") AS FREQUENCY';
 						break;
 					default:
-						$field = $field.', CURRENT_A, CURRENT_B, CURRENT_C, VOLTAGE_A, VOLTAGE_B, VOLTAGE_C, POWER_FACTOR, ACTIVE_ELECTRICITY, REACTIVE_ELECTRICITY, ACTIVE_POWER, REACTIVE_POWER, FREQUENCY, BREAK_STATUS';
+						$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C ,CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C, CONCAT(POWER_FACTOR, " ", "cosΦ") AS POWER_FACTOR, CONCAT(ACTIVE_ELECTRICITY, " ", "KWH") AS ACTIVE_ELECTRICITY,CONCAT(REACTIVE_ELECTRICITY, " ", "kVarh") AS REACTIVE_ELECTRICITY,CONCAT(ACTIVE_POWER, " ", "kW") AS ACTIVE_POWER,CONCAT(REACTIVE_POWER, " ", "kVar") AS REACTIVE_POWER,CONCAT(FREQUENCY, " ", "Hz") AS FREQUENCY';
 						break;
 				}
 				$list = Db::name('multimeter_data_history')
 							->field($field)
 							->whereTime('TIME', 'd')
 							->where($where)
-							->limit($LIMIT, $OFFSET)
+							->limit($LIMIT * ($page - 1), $LIMIT)
 							->order('TIME DESC')
 							->select();
 				break;
@@ -1005,31 +1003,31 @@ class DataQuery extends Api
 			case '其他':
 				switch ($param['TYPE']) {
 					case '三相电流':
-						$field = $field.',CURRENT_A, CURRENT_B, CURRENT_C';
+						$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C';
 						break;
 					case '三相电压':
-						$field = $field.',VOLTAGE_A, VOLTAGE_B, VOLTAGE_C';
+						$field = $field.',CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C';
 						break;
 					case '功率因数':
-						$field = $field.',POWER_FACTOR';
+						$field = $field.',CONCAT(POWER_FACTOR, " ", "cosΦ") AS POWER_FACTOR';
 						break;
 					case '有功电量':
-						$field = $field.',ACTIVE_ELECTRICITY';
+						$field = $field.',CONCAT(ACTIVE_ELECTRICITY, " ", "KWH") AS ACTIVE_ELECTRICITY';
 						break;
 					case '无功电量':
-						$field = $field.',REACTIVE_ELECTRICITY';
+						$field = $field.',CONCAT(REACTIVE_ELECTRICITY, " ", "kVarh") AS REACTIVE_ELECTRICITY';
 						break;
 					case '有功功率':
-						$field = $field.',ACTIVE_POWER';
+						$field = $field.',CONCAT(ACTIVE_POWER, " ", "kW") AS ACTIVE_POWER';
 						break;
 					case '无功功率':
-						$field = $field.',REACTIVE_POWER';
+						$field = $field.',CONCAT(REACTIVE_POWER, " ", "kVar") AS REACTIVE_POWER';
 						break;
 					case '频率':
-						$field = $field.',FREQUENCY';
+						$field = $field.',CONCAT(FREQUENCY, " ", "Hz") AS FREQUENCY';
 						break;
 					default:
-						$field = $field.', CURRENT_A, CURRENT_B, CURRENT_C, VOLTAGE_A, VOLTAGE_B, VOLTAGE_C, POWER_FACTOR, ACTIVE_ELECTRICITY, REACTIVE_ELECTRICITY, ACTIVE_POWER, REACTIVE_POWER, FREQUENCY, BREAK_STATUS';
+						$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C ,CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C, CONCAT(POWER_FACTOR, " ", "cosΦ") AS POWER_FACTOR, CONCAT(ACTIVE_ELECTRICITY, " ", "KWH") AS ACTIVE_ELECTRICITY,CONCAT(REACTIVE_ELECTRICITY, " ", "kVarh") AS REACTIVE_ELECTRICITY,CONCAT(ACTIVE_POWER, " ", "kW") AS ACTIVE_POWER,CONCAT(REACTIVE_POWER, " ", "kVar") AS REACTIVE_POWER,CONCAT(FREQUENCY, " ", "Hz") AS FREQUENCY, BREAK_STATUS';
 						break;
 				}
 
@@ -1037,7 +1035,7 @@ class DataQuery extends Api
 							->field($field)
 							->whereTime('TIME', 'd')
 							->where($where)
-							->limit($LIMIT, $OFFSET)
+							->limit($LIMIT * ($page - 1), $LIMIT)
 							->order('TIME DESC')
 							->select();
 				break;
@@ -1063,11 +1061,11 @@ class DataQuery extends Api
 		$START_TIME = date('Y-m-d H:i:s',($param['START_TIME'] ? strtotime($param['START_TIME']) : strtotime('-1 year')));
 		//结束时间当前时间 
 		$END_TIME = date('Y-m-d H:i:s',($param['END_TIME'] ? strtotime($param['END_TIME'])+86400 : time()));
+		$page = $param['PAGE'] ? $param['PAGE'] : 1;
 		//$whereTime = ['TIME', [$START_TIME, $END_TIME]];
 		$whereTime['TIME'] = array($START_TIME, $END_TIME);
 		$field = 'TIME, LINK_NUMBER';
 		$where['LINK_NUMBER'] = ['eq', $param['LINK_NUMBER']];
-		$OFFSET = $param['OFFSET'] ? $param['OFFSET'] : 20;
 		$LIMIT = $param['LIMIT'] ? $param['LIMIT'] : 0;
 		switch ($param['CATEGORY']) {
 			case '计量柜':
@@ -1075,38 +1073,38 @@ class DataQuery extends Api
 				$list = [];
 				switch ($param['TYPE']) {
 					case '三相电流':
-						$field = $field.',CURRENT_A, CURRENT_B, CURRENT_C';
+						$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C';
 						break;
 					case '三相电压':
-						$field = $field.',VOLTAGE_A, VOLTAGE_B, VOLTAGE_C';
+						$field = $field.',CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C';
 						break;
 					case '功率因数':
-						$field = $field.',POWER_FACTOR';
+						$field = $field.',CONCAT(POWER_FACTOR, " ", "cosΦ") AS POWER_FACTOR';
 						break;
 					case '有功电量':
-						$field = $field.',ACTIVE_ELECTRICITY';
+						$field = $field.',CONCAT(ACTIVE_ELECTRICITY, " ", "KWH") AS ACTIVE_ELECTRICITY';
 						break;
 					case '无功电量':
-						$field = $field.',REACTIVE_ELECTRICITY';
+						$field = $field.',CONCAT(REACTIVE_ELECTRICITY, " ", "kVarh") AS REACTIVE_ELECTRICITY';
 						break;
 					case '有功功率':
-						$field = $field.',ACTIVE_POWER';
+						$field = $field.',CONCAT(ACTIVE_POWER, " ", "kW") AS ACTIVE_POWER';
 						break;
 					case '无功功率':
-						$field = $field.',REACTIVE_POWER';
+						$field = $field.',CONCAT(REACTIVE_POWER, " ", "kVar") AS REACTIVE_POWER';
 						break;
 					case '频率':
-						$field = $field.',FREQUENCY';
+						$field = $field.',CONCAT(FREQUENCY, " ", "Hz") AS FREQUENCY';
 						break;
 					default:
-						$field = $field.', CURRENT_A, CURRENT_B, CURRENT_C, VOLTAGE_A, VOLTAGE_B, VOLTAGE_C, POWER_FACTOR, ACTIVE_ELECTRICITY, REACTIVE_ELECTRICITY, ACTIVE_POWER, REACTIVE_POWER, FREQUENCY';
+						$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C ,CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C, CONCAT(POWER_FACTOR, " ", "cosΦ") AS POWER_FACTOR, CONCAT(ACTIVE_ELECTRICITY, " ", "KWH") AS ACTIVE_ELECTRICITY,CONCAT(REACTIVE_ELECTRICITY, " ", "kVarh") AS REACTIVE_ELECTRICITY,CONCAT(ACTIVE_POWER, " ", "kW") AS ACTIVE_POWER,CONCAT(REACTIVE_POWER, " ", "kVar") AS REACTIVE_POWER,CONCAT(FREQUENCY, " ", "Hz") AS FREQUENCY';
 						break;
 				}
 				$list = Db::name('electricity_meter_data_history')
 							->field($field)
 							->whereTime('TIME', [$START_TIME, $END_TIME])
 							->where($where)
-							->limit($LIMIT, $OFFSET)
+							->limit($LIMIT * ($page - 1), $LIMIT)
 							->order('TIME desc')
 							->select();
 				break;
@@ -1117,13 +1115,13 @@ class DataQuery extends Api
 					//三相电流、三相电压、功率因数、有功电量、无功电量、有功功率、无功功率、频率
 					switch ($param['TYPE']) {
 						case '三相电流':
-							$field = $field.',CURRENT_A, CURRENT_B, CURRENT_C';
+							$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C';
 							break;
 						case '三相电压':
-							$field = $field.',VOLTAGE_A, VOLTAGE_B, VOLTAGE_C';
+							$field = $field.',CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C';
 							break;
 						default:
-							$field = $field.',CURRENT_A, CURRENT_B, CURRENT_C, VOLTAGE_A, VOLTAGE_B, VOLTAGE_C';
+							$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C ,CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C';
 							break;
 					}
 
@@ -1131,7 +1129,7 @@ class DataQuery extends Api
 								->field($field)
 								->whereTime('TIME', [$START_TIME, $END_TIME])
 								->where($where)
-								->limit($LIMIT, $OFFSET)
+								->limit($LIMIT * ($page - 1), $LIMIT)
 								->order('TIME DESC')
 								->select();
 				}
@@ -1151,13 +1149,13 @@ class DataQuery extends Api
 
 			case '变压器':
 				//$param['TYPE']=='温度';
-				$field =$field.',TEMPERATURE_A, TEMPERATURE_B, TEMPERATURE_C, STARTING_STATUS, CLOSED_STATUS';
+				$field =$field.',CONCAT(TEMPERATURE_A, " ", "℃") AS TEMPERATURE_A, CONCAT(TEMPERATURE_B, " ", "℃") AS TEMPERATURE_B, CONCAT(TEMPERATURE_C, " ", "℃") AS TEMPERATURE_C, STARTING_STATUS, CLOSED_STATUS';
 
 				$list = Db::name('temperature_controller_data_history')
-							->field($where)
+							->field($field)
 							->whereTime('TIME', [$START_TIME, $END_TIME])
 							->where($where)
-							->limit($LIMIT, $OFFSET)
+							->limit($LIMIT * ($page - 1), $LIMIT)
 							->order('TIME DESC')
 							->select();
 				break;
@@ -1165,40 +1163,40 @@ class DataQuery extends Api
 			case '低压进线柜':
 				switch ($param['TYPE']) {
 					case '三相电流':
-						$field = $field.',CURRENT_A, CURRENT_B, CURRENT_C';
+						$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C';
 						break;
 					case '三相电压':
-						$field = $field.',VOLTAGE_A, VOLTAGE_B, VOLTAGE_C';
+						$field = $field.',CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C';
 						break;
 					case '功率因数':
-						$field = $field.',POWER_FACTOR';
+						$field = $field.',CONCAT(POWER_FACTOR, " ", "cosΦ") AS POWER_FACTOR';
 						break;
 					case '有功电量':
-						$field = $field.',ACTIVE_ELECTRICITY';
+						$field = $field.',CONCAT(ACTIVE_ELECTRICITY, " ", "KWH") AS ACTIVE_ELECTRICITY';
 						break;
 					case '无功电量':
-						$field = $field.',REACTIVE_ELECTRICITY';
+						$field = $field.',CONCAT(REACTIVE_ELECTRICITY, " ", "kVarh") AS REACTIVE_ELECTRICITY';
 						break;
 					case '有功功率':
-						$field = $field.',ACTIVE_POWER';
+						$field = $field.',CONCAT(ACTIVE_POWER, " ", "kW") AS ACTIVE_POWER';
 						break;
 					case '无功功率':
-						$field = $field.',REACTIVE_POWER';
+						$field = $field.',CONCAT(REACTIVE_POWER, " ", "kVar") AS REACTIVE_POWER';
 						break;
 					case '频率':
-						$field = $field.',FREQUENCY';
+						$field = $field.',CONCAT(FREQUENCY, " ", "Hz") AS FREQUENCY';
 						break;
 					case '三相谐波电流':
-						$field = $field.',HARMONIC_CURRENT_A, HARMONIC_CURRENT_B, HARMONIC_CURRENT_C';
+						$field = $field.',CONCAT(HARMONIC_CURRENT_A, " ", "A") AS HARMONIC_CURRENT_A, CONCAT(HARMONIC_CURRENT_B, " ", "A") AS HARMONIC_CURRENT_B, CONCAT(HARMONIC_CURRENT_C, " ", "A") AS HARMONIC_CURRENT_C';
 						break;
 					case '三相谐波电压':
-						$field = $field.',HARMONIC_VOLTAGE_A, HARMONIC_VOLTAGE_B, HARMONIC_VOLTAGE_C';
+						$field = $field.',CONCAT(HARMONIC_VOLTAGE_A, " ", "A") AS HARMONIC_VOLTAGE_A, CONCAT(HARMONIC_VOLTAGE_B, " ", "A") AS HARMONIC_VOLTAGE_B, CONCAT(HARMONIC_VOLTAGE_C, " ", "A") AS HARMONIC_VOLTAGE_C';
 						break;
 					case '需量':
 						$field = $field.',DEMAND';
 						break;
 					default:
-						$field = $field.', CURRENT_A, CURRENT_B, CURRENT_C, VOLTAGE_A, VOLTAGE_B, VOLTAGE_C, POWER_FACTOR, ACTIVE_ELECTRICITY, REACTIVE_ELECTRICITY, ACTIVE_POWER, REACTIVE_POWER, FREQUENCY,HARMONIC_CURRENT_A, HARMONIC_CURRENT_B, HARMONIC_CURRENT_C, HARMONIC_VOLTAGE_A, HARMONIC_VOLTAGE_B, HARMONIC_VOLTAGE_C, DEMAND, BREAK_STATUS';
+						$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C ,CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C, CONCAT(POWER_FACTOR, " ", "cosΦ") AS POWER_FACTOR, CONCAT(ACTIVE_ELECTRICITY, " ", "KWH") AS ACTIVE_ELECTRICITY,CONCAT(REACTIVE_ELECTRICITY, " ", "kVarh") AS REACTIVE_ELECTRICITY,CONCAT(ACTIVE_POWER, " ", "kW") AS ACTIVE_POWER,CONCAT(REACTIVE_POWER, " ", "kVar") AS REACTIVE_POWER,CONCAT(FREQUENCY, " ", "Hz") AS FREQUENCY,CONCAT(HARMONIC_CURRENT_A, " ", "A") AS HARMONIC_CURRENT_A, CONCAT(HARMONIC_CURRENT_B, " ", "A") AS HARMONIC_CURRENT_B, CONCAT(HARMONIC_CURRENT_C, " ", "A") AS HARMONIC_CURRENT_C,CONCAT(HARMONIC_VOLTAGE_A, " ", "A") AS HARMONIC_VOLTAGE_A, CONCAT(HARMONIC_VOLTAGE_B, " ", "A") AS HARMONIC_VOLTAGE_B, CONCAT(HARMONIC_VOLTAGE_C, " ", "A") AS HARMONIC_VOLTAGE_C';
 						break;
 				}
 
@@ -1206,7 +1204,7 @@ class DataQuery extends Api
 							->field($field)
 							->whereTime('TIME', [$START_TIME, $END_TIME])
 							->where($where)
-							->limit($LIMIT, $OFFSET)
+							->limit($LIMIT * ($page - 1), $LIMIT)
 							->order('TIME DESC')
 							->select();
 				break;
@@ -1214,38 +1212,38 @@ class DataQuery extends Api
 			case '低压出线柜':
 				switch ($param['TYPE']) {
 					case '三相电流':
-						$field = $field.',CURRENT_A, CURRENT_B, CURRENT_C';
+						$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C';
 						break;
 					case '三相电压':
-						$field = $field.',VOLTAGE_A, VOLTAGE_B, VOLTAGE_C';
+						$field = $field.',CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C';
 						break;
 					case '功率因数':
-						$field = $field.',POWER_FACTOR';
+						$field = $field.',CONCAT(POWER_FACTOR, " ", "cosΦ") AS POWER_FACTOR';
 						break;
 					case '有功电量':
-						$field = $field.',ACTIVE_ELECTRICITY';
+						$field = $field.',CONCAT(ACTIVE_ELECTRICITY, " ", "KWH") AS ACTIVE_ELECTRICITY';
 						break;
 					case '无功电量':
-						$field = $field.',REACTIVE_ELECTRICITY';
+						$field = $field.',CONCAT(REACTIVE_ELECTRICITY, " ", "kVarh") AS REACTIVE_ELECTRICITY';
 						break;
 					case '有功功率':
-						$field = $field.',ACTIVE_POWER';
+						$field = $field.',CONCAT(ACTIVE_POWER, " ", "kW") AS ACTIVE_POWER';
 						break;
 					case '无功功率':
-						$field = $field.',REACTIVE_POWER';
+						$field = $field.',CONCAT(REACTIVE_POWER, " ", "kVar") AS REACTIVE_POWER';
 						break;
 					case '频率':
-						$field = $field.',FREQUENCY';
+						$field = $field.',CONCAT(FREQUENCY, " ", "Hz") AS FREQUENCY';
 						break;
 					default:
-						$field = $field.', CURRENT_A, CURRENT_B, CURRENT_C, VOLTAGE_A, VOLTAGE_B, VOLTAGE_C, POWER_FACTOR, ACTIVE_ELECTRICITY, REACTIVE_ELECTRICITY, ACTIVE_POWER, REACTIVE_POWER, FREQUENCY, BREAK_STATUS';
+						$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C ,CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C, CONCAT(POWER_FACTOR, " ", "cosΦ") AS POWER_FACTOR, CONCAT(ACTIVE_ELECTRICITY, " ", "KWH") AS ACTIVE_ELECTRICITY,CONCAT(REACTIVE_ELECTRICITY, " ", "kVarh") AS REACTIVE_ELECTRICITY,CONCAT(ACTIVE_POWER, " ", "kW") AS ACTIVE_POWER,CONCAT(REACTIVE_POWER, " ", "kVar") AS REACTIVE_POWER,CONCAT(FREQUENCY, " ", "Hz") AS FREQUENCY';
 						break;
 				}
 				$list = Db::name('multimeter_data_history')
 							->field($field)
 							->whereTime('TIME', [$START_TIME, $END_TIME])
 							->where($where)
-							->limit($LIMIT, $OFFSET)
+							->limit($LIMIT * ($page - 1), $LIMIT)
 							->order('TIME DESC')
 							->select();
 				break;
@@ -1253,31 +1251,31 @@ class DataQuery extends Api
 			case '其他':
 				switch ($param['TYPE']) {
 					case '三相电流':
-						$field = $field.',CURRENT_A, CURRENT_B, CURRENT_C';
+						$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C';
 						break;
 					case '三相电压':
-						$field = $field.',VOLTAGE_A, VOLTAGE_B, VOLTAGE_C';
+						$field = $field.',CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C';
 						break;
 					case '功率因数':
-						$field = $field.',POWER_FACTOR';
+						$field = $field.',CONCAT(POWER_FACTOR, " ", "cosΦ") AS POWER_FACTOR';
 						break;
 					case '有功电量':
-						$field = $field.',ACTIVE_ELECTRICITY';
+						$field = $field.',CONCAT(ACTIVE_ELECTRICITY, " ", "KWH") AS ACTIVE_ELECTRICITY';
 						break;
 					case '无功电量':
-						$field = $field.',REACTIVE_ELECTRICITY';
+						$field = $field.',CONCAT(REACTIVE_ELECTRICITY, " ", "kVarh") AS REACTIVE_ELECTRICITY';
 						break;
 					case '有功功率':
-						$field = $field.',ACTIVE_POWER';
+						$field = $field.',CONCAT(ACTIVE_POWER, " ", "kW") AS ACTIVE_POWER';
 						break;
 					case '无功功率':
-						$field = $field.',REACTIVE_POWER';
+						$field = $field.',CONCAT(REACTIVE_POWER, " ", "kVar") AS REACTIVE_POWER';
 						break;
 					case '频率':
-						$field = $field.',FREQUENCY';
+						$field = $field.',CONCAT(FREQUENCY, " ", "Hz") AS FREQUENCY';
 						break;
 					default:
-						$field = $field.', CURRENT_A, CURRENT_B, CURRENT_C, VOLTAGE_A, VOLTAGE_B, VOLTAGE_C, POWER_FACTOR, ACTIVE_ELECTRICITY, REACTIVE_ELECTRICITY, ACTIVE_POWER, REACTIVE_POWER, FREQUENCY, BREAK_STATUS';
+						$field = $field.', CONCAT(CURRENT_A," ","A")AS CURRENT_A, CONCAT(CURRENT_B," ","A") AS CURRENT_B, CONCAT(CURRENT_C, " ", "A") AS CURRENT_C ,CONCAT(VOLTAGE_A, " ", "V") AS VOLTAGE_A, CONCAT(VOLTAGE_B, " ", "V") AS VOLTAGE_B, CONCAT(VOLTAGE_C, " ", "V") AS VOLTAGE_C, CONCAT(POWER_FACTOR, " ", "cosΦ") AS POWER_FACTOR, CONCAT(ACTIVE_ELECTRICITY, " ", "KWH") AS ACTIVE_ELECTRICITY,CONCAT(REACTIVE_ELECTRICITY, " ", "kVarh") AS REACTIVE_ELECTRICITY,CONCAT(ACTIVE_POWER, " ", "kW") AS ACTIVE_POWER,CONCAT(REACTIVE_POWER, " ", "kVar") AS REACTIVE_POWER,CONCAT(FREQUENCY, " ", "Hz") AS FREQUENCY';
 						break;
 				}
 
@@ -1285,7 +1283,7 @@ class DataQuery extends Api
 							->field($field)
 							->whereTime('TIME', [$START_TIME, $END_TIME])
 							->where($where)
-							->limit($LIMIT, $OFFSET)
+							->limit($LIMIT * ($page - 1), $LIMIT)
 							->order('TIME DESC')
 							->select();
 				break;
