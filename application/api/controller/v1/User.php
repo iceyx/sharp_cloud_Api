@@ -47,7 +47,7 @@ class User extends Api
     public function login()
     {
         $data = $this->request->param('');
-        //file_put_contents('log.txt',"\r\n \r\n".date('Y-m-d H:i:s',time())."\r\n ".'提交数据：'.json_encode($data),FILE_APPEND);
+        //logTxt($data);
         $validate = new LoginByAccount;
         $result = $validate->check($data);
         if ($result !== true) {

@@ -22,7 +22,6 @@ class EnergyAnalysis extends Api
 	public function LoadList()
 	{
 		$param = $this->request->param('');
-		logTxt($param);
 		ValidataCommon::validateCheck(['COMPANY_ID' => 'require'], $this->request->param('')); //参数验证
 		$USERID = $this->user_id;
 		$page = $param['PAGE'] ? $param['PAGE'] : 1;
@@ -117,10 +116,24 @@ class EnergyAnalysis extends Api
 		ValidataCommon::validateCheck(['COMPANY_ID' => 'require'], $this->request->param('')); //参数验证
 		$where['COMPANY_ID'] = $param['COMPANY_ID'];
 		$elect_pie = CaotspDay::getElecPieByTime($where);
+		$allPower = $elect_pie['PEAK_POWER'] + $elect_pie['VALLEY_POWER'] + $elect_pie['FLAT_POWER'] +$elect_pie['CUSP_POWER'];
+		$pie['PEAK_POWER'] = $elect_pie['PEAK_POWER']  ? floatval(number_format($elect_pie['PEAK_POWER'] / $allPower *100, '2')) : 0.00;
+		$pie['VALLEY_POWER'] = $elect_pie['VALLEY_POWER'] ? floatval(number_format($elect_pie['VALLEY_POWER'] / $allPower *100,'2')): 0.00;
+		$pie['FLAT_POWER'] = $elect_pie['FLAT_POWER'] ? floatval(number_format($elect_pie['FLAT_POWER'] / $allPower *100, '2')) : 0.00;
+		$pie['CUSP_POWER'] = $elect_pie['CUSP_POWER'] ? floatval(number_format($elect_pie['CUSP_POWER'] / $allPower *100, '2')) : 0.00;
+
+
+		$peak['PEAK_POWERS'] = $elect_pie['PEAK_POWER']  ? $elect_pie['PEAK_POWER'] : 0.00;
+		$peak['VALLEY_POWERS'] = $elect_pie['VALLEY_POWER'] ? $elect_pie['VALLEY_POWER'] : 0.00;
+		$peak['FLAT_POWERS'] = $elect_pie['FLAT_POWER'] ? $elect_pie['FLAT_POWER'] : 0.00;
+		$peak['CUSP_POWERS'] = $elect_pie['CUSP_POWER'] ? $elect_pie['CUSP_POWER'] : 0.00;
+
+		$max = array_search(max($peak), $peak);
 		$arr = '';
-		if (count($elect_pie)) {
-			$spike = ($elect_pie[0]['PEAK_POWER'] + $elect_pie[0]['CUSP_POWER']) * 0.36;//计算尖峰电量
-			$arr['data'] = $elect_pie;
+		if ($elect_pie) {
+			$spike = ($pie['PEAK_POWER'] + $pie['CUSP_POWER']) * 0.36;//计算尖峰电量
+			$arr['peak'] = $peak;
+			$arr['pie'] = $pie;
 			$money = sprintf('%.2f', $spike);
 			$str = "温馨提示：目前尖峰电量占比比较高，建议降低在尖峰时段负荷。大概节约{$money}电费";
 			$arr['proposal'] = urlencode($str);
@@ -139,8 +152,8 @@ class EnergyAnalysis extends Api
 	{
 		$param = $this->request->param('');
 		ValidataCommon::validateCheck(['COMPANY_ID' => 'require'], $this->request->param('')); //参数验证
-		$OFFSET = $param['OFFSET'] ? $param['OFFSET'] : 20;
-		$LIMIT = $param['LIMIT'] ? $param['LIMIT'] : 0;
+		$LIMIT = $param['LIMIT'] ? $param['LIMIT'] : 20;
+		$page = $param['PAGE'] ? $param['PAGE'] : 1;
 		// $start_time = date('Y-m-01 00:00:00',strtotime('-1 month'));
 		//$end_time = date("Y-m-d 23:59:59", strtotime(-date('d').'day'));
 		$reporting = Db::name('multimeter')
@@ -150,10 +163,9 @@ class EnergyAnalysis extends Api
 					   ->where('r.COMPANY_ID', 'eq', $param['COMPANY_ID'])
 					   ->field('r.*, date_format(r.STATISTICS_TIME,"%Y-%m-%d") as STATISTICS_TIME, m.NAME')
 					   ->order('r.STATISTICS_TIME DESC')
-					   ->limit($LIMIT, $OFFSET)
+					   ->limit($LIMIT * ($page - 1), $LIMIT)
 					   ->select();
-		//echo Db::name('multimeter')->getlastsql();exit;
-		if (count($reporting)) {
+		if ($reporting) {
 			foreach ($reporting as $key => $value) {
 				if ($value['VOUCH_DEMAND'] > $value['CAPACITY']) {
 					$reporting[$key]['INFO'] = '建议：更换为容量报装方式可节省'.$value['PRICE_SPREAD'];

@@ -31,8 +31,7 @@ class Esqr extends Model
 	 */
 	public static function add($data)
 	{
-		Esqr::insertGetId($data);
-		return true;
+		return Esqr::insertGetId($data);
 	}
 
 

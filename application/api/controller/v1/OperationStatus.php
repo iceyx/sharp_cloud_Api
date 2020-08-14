@@ -237,16 +237,16 @@ class OperationStatus extends Api
 		$param = $this->request->param('');
 		ValidataCommon::validateCheck(['COMPANY_ID' => 'require'], $this->request->param('')); //参数验证
 		$str = FaultInfo::getfaultNum($param['COMPANY_ID']);
-
 		//默认开始日期从 去年今天开始
 		$START_TIME = date('Y-m-d H:i:s',($param['START_TIME'] ? strtotime($param['START_TIME']) : strtotime('-1 year')));
 		//结束时间当前时间 
 		$END_TIME = date('Y-m-d H:i:s',($param['END_TIME'] ? strtotime($param['END_TIME'])+86400 : time()));
 		$where = [];
 		$whereIn = [];
-		$type = $param['OCCURRENCE_TYPE'] ? intval($param['OCCURRENCE_TYPE']) : '1,2,3,4';
-		$OFFSET = $param['OFFSET'] ? $param['OFFSET'] : 20;
-		$LIMIT = $param['LIMIT'] ? $param['LIMIT'] : 0;
+		//OCCURRENCE_TYPE ->"电流", "电压", "温度", "故障仪"
+		$type = $param['OCCURRENCE_TYPE'] !=0 ? intval($param['OCCURRENCE_TYPE']) : '1,2,3,4';
+		$page = $param['PAGE'] ? $param['PAGE'] : 1;
+		$LIMIT = $param['LIMIT'] ? $param['LIMIT'] : 20;
 
 		$company = Db::name('company')
 						->where('ID', 'eq', $param['COMPANY_ID'])
@@ -259,14 +259,14 @@ class OperationStatus extends Api
 						->whereIn('LINK_NUMBER', $str)
 						->whereIn('OCCURRENCE_TYPE', $type)
 						->whereTime('OCCURRENCE_TIME', [$START_TIME, $END_TIME])
+						->field('f.*')
 						->order('f.OCCURRENCE_TIME desc')
-						->limit($LIMIT, $OFFSET)
+						->limit($LIMIT * ($page - 1), $LIMIT)
 						->select();
 		foreach ($faultlist as $key => $value) {
 			$faultlist[$key]['COMPANY_NAME'] = $company['NAME'];
 		}
-
-		return $faultlist ? self::returnMsg(200, 'success', $faultlist) :self::returnMsg(300, '无数据！', null);
+		return render_json($faultlist);
 
 	}
 

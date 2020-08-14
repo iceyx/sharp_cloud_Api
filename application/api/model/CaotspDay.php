@@ -64,8 +64,8 @@ class CaotspDay extends Model
 	public static function getElecPieByTime($where)
 	{
 		return CaotspDay::field('sum(PEAK_POWER) as PEAK_POWER,sum(VALLEY_POWER) as VALLEY_POWER,sum(FLAT_POWER) as FLAT_POWER,sum(CUSP_POWER) as CUSP_POWER')
-						->whereTime('STATISTICS_TIME', 'month')
+						->whereTime('STATISTICS_TIME', '2017-12-09 00:00:00')
 						->where($where)
-						->select();
+						->find();
 	}
 }

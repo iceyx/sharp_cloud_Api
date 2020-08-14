@@ -91,6 +91,13 @@ Route::post(':version/EnergyAnalysis/LoadList','api/:version.EnergyAnalysis/Load
 //添加负荷分析
 Route::post(':version/EnergyAnalysis/addList','api/:version.EnergyAnalysis/addList');
 
-//报装分析
+//添加负荷分析
+Route::post(':version/EnergyAnalysis/delList','api/:version.EnergyAnalysis/delList');
+
+//平谷峰分析
+Route::post(':version/EnergyAnalysis/fpg','api/:version.EnergyAnalysis/fpg');
+
+//需量分析
 Route::post(':version/EnergyAnalysis/demandAnalysis','api/:version.EnergyAnalysis/demandAnalysis');
+
 
