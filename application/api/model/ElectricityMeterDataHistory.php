@@ -16,9 +16,9 @@ class ElectricityMeterDataHistory extends Model
 	 * @param    [type]
 	 * @return   [type]
 	 */
-	public static function getValue($where, $field)
+	public static function getValue($where, $field, $start, $end)
 	{
-		return ElectricityMeterDataHistory::where($where)->field($field)->select();
+		return ElectricityMeterDataHistory::whereBetweenTime('TIME',$start, $end)->where($where)->field($field)->select();
 	}
 
 	/**
@@ -28,9 +28,9 @@ class ElectricityMeterDataHistory extends Model
 	 * @param    [type]
 	 * @return   [type]
 	 */
-	public static function getList($where, $field)
+	public static function getList($where, $field, $start, $end)
 	{
-		return ElectricityMeterDataHistory::where($where)->field($field)->order('TIME ASC')->select();
+		return ElectricityMeterDataHistory::whereBetweenTime('TIME',$start, $end)->where($where)->field($field)->order('TIME ASC')->select();
 	}
 
 	/**

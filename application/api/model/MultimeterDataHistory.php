@@ -7,7 +7,7 @@ use think\Db;
 /**
  * 多功能表历史数据
  */
-class MultimeterDataHistory extends AnotherClass
+class MultimeterDataHistory extends Model
 {
 	
 	/**
@@ -17,7 +17,7 @@ class MultimeterDataHistory extends AnotherClass
 	 */
 	public static function getList($where, $field)
 	{
-		return CipdDataHistory::where($where)->field($field)->order('TIME ASC')->select();
+		return MultimeterDataHistory::where($where)->field($field)->order('TIME ASC')->select();
 	}
 	
 }

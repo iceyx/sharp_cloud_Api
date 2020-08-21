@@ -15,8 +15,8 @@ class TemperatureControllerDataHistory extends Model
 	 * @DateTime 2020-05-29T15:01:16+0800
 	 * @return   [type]
 	 */
-	public static function getList($where, $field)
+	public static function getList($where, $field, $start, $end)
 	{
-		return CipdDataHistory::where($where)->field($field)->order('TIME ASC')->select();
+		return TemperatureControllerDataHistory::whereBetweenTime('TIME', $start, $end)->where($where)->field($field)->order('TIME ASC')->select();
 	}
 }
