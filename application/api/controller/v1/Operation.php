@@ -9,6 +9,7 @@ use app\api\validate\ValidataCommon;
 use think\Db;
 use app\api\model\Company;
 use app\api\model\FaultInfo;
+use think\facade\Cache;
 
 /**
  * 运行状况
@@ -26,10 +27,80 @@ class Operation extends Api
 	{
 		$param = $this->request->param('');
 		$uid = $this->user_id;
+
+		// $list = Db::query("SELECT
+		// 					 c.*, (
+		// 					  SELECT
+		// 					   count(0)
+		// 					  FROM
+		// 					   mst_fault_info
+		// 					  WHERE
+		// 					   LINK_NUMBER IN (
+		// 					    SELECT
+		// 					     mm.LINK_NUMBER
+		// 					    FROM
+		// 					     tran_room_module_apparatus trma
+		// 					    JOIN tran_room_module trm ON trma.ROOM_MODULE_ID = trm.ID
+		// 					    JOIN mst_multimeter mm ON mm.ID = trma.APPARATUS_ID
+		// 					    WHERE
+		// 					     trm.COMPANY_ID = c.id
+		// 					    UNION ALL
+		// 					     SELECT
+		// 					      mem.LINK_NUMBER
+		// 					     FROM
+		// 					      tran_room_module_apparatus trma
+		// 					     JOIN tran_room_module trm ON trma.ROOM_MODULE_ID = trm.ID
+		// 					     JOIN mst_electricity_meter mem ON mem.ID = trma.APPARATUS_ID
+		// 					     WHERE
+		// 					      trm.COMPANY_ID = c.id
+		// 					     UNION ALL
+		// 					      SELECT
+		// 					       mfm.LINK_NUMBER
+		// 					      FROM
+		// 					       tran_room_module_apparatus trma
+		// 					      JOIN tran_room_module trm ON trma.ROOM_MODULE_ID = trm.ID
+		// 					      JOIN mst_fault_meter mfm ON mfm.ID = trma.APPARATUS_ID
+		// 					      WHERE
+		// 					       trm.COMPANY_ID = c.id
+		// 					      UNION ALL
+		// 					       SELECT
+		// 					        mtc.LINK_NUMBER
+		// 					       FROM
+		// 					        tran_room_module_apparatus trma
+		// 					       JOIN tran_room_module trm ON trma.ROOM_MODULE_ID = trm.ID
+		// 					       JOIN mst_temperature_controller mtc ON mtc.ID = trma.APPARATUS_ID
+		// 					       WHERE
+		// 					        trm.COMPANY_ID = c.id
+		// 					       UNION ALL
+		// 					        SELECT
+		// 					         mc.LINK_NUMBER
+		// 					        FROM
+		// 					         tran_room_module_apparatus trma
+		// 					        JOIN tran_room_module trm ON trma.ROOM_MODULE_ID = trm.ID
+		// 					        JOIN mst_cipd mc ON mc.ID = trma.APPARATUS_ID
+		// 					        WHERE
+		// 					         trm.COMPANY_ID = c.id
+		// 					   )
+		// 					  AND IS_READING = 0
+		// 					 ) AS num
+		// 					FROM
+		// 					 MST_COMPANY c
+		// 					LEFT JOIN SYS_DICTIONARIES d ON c.AREA_ID = d.DICTIONARIES_ID
+		// 					LEFT JOIN SYS_DICTIONARIES dp ON d.PARENT_ID = dp.DICTIONARIES_ID
+		// 					WHERE
+		// 					 1 = 1
+		// 					AND PID != '0'");
+
+		// return render_json($list);exit;
+		//Cache::rm('company_list');
+		//上线不使用缓存
+		if (Cache::get('company_list')) {
+			return render_json(unserialize(Cache::get('company_list')));
+		}
 		if (isset($param['CITYNAME']) && $param['CITYNAME']) {
 			$company_list = Company::getCompanyByUidCityName($uid,$param['CITYNAME']);
 		}else{
-			$company_list = Company::getCompanyByUid($uid);
+			$company_list = Company::getCompanyByUid($uid)->toArray();
 		}
 		if ($param['NAME']) {
 			foreach ($company_list as $key => $value) {
@@ -63,6 +134,7 @@ class Operation extends Api
 			}
 		}
 
+		Cache::set('company_list',serialize($company_list),86000);
 		
 		return render_json($company_list);
 

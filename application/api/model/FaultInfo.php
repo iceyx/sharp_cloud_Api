@@ -61,18 +61,19 @@ class FaultInfo extends Model
 		if ($one) {
 			return self::getFaultOne($str);
 		}else{
-			$res = FaultInfo::alias('f')
-						->leftJoin(['sys_user u'], 'f.ELECTRICIAN_ID = u.USER_ID')
-						->whereIn('LINK_NUMBER',$str)
-						->where('IS_READING','0')
-						->field('u.NAME, f.*')
-						->order('f.OCCURRENCE_TIME desc')
-						->select();
-			return count($res);
+			return FaultInfo::where('IS_READING','0')->whereIn('LINK_NUMBER',$str)->count();
+			// $res = FaultInfo::alias('f')
+			// 			->leftJoin(['sys_user u'], 'f.ELECTRICIAN_ID = u.USER_ID')
+			// 			->whereIn('LINK_NUMBER',$str)
+			// 			->where('IS_READING','0')
+			// 			->field('u.NAME, f.ID')
+			// 			->order('f.OCCURRENCE_TIME desc')
+			// 			->select();
+			// return count($res);
 		}
 		
-
 	}
+
 
 	/**
 	 * 组装新数组
@@ -129,16 +130,28 @@ class FaultInfo extends Model
 		//查询变压器故障列表
 		$arr = array();
 		//$arr = array_merge((array)$transformer, (array)$protection, (array)$faultInstrument, (array)$lowInCabinet);
-		if(is_array($transformer)) $arr = array_merge($arr, $transformer);
-		if(is_array($protection)) $arr = array_merge($arr, $protection);
-		if(is_array($faultInstrument)) $arr = array_merge($arr, $faultInstrument);
-		if(is_array($lowInCabinet)){
+		if(!empty($transformer)){
+			$arr = array_merge($arr, $transformer);
+		}
+		if(!empty($protection)) {
+			$arr = array_merge($arr, $protection);
+		}
+		if(!empty($faultInstrument)){
+			 $arr = array_merge($arr, $faultInstrument);
+		}
+		if(!empty($lowInCabinet)){
 			$arr = array_merge($arr, $lowInCabinet);
 		};
-		if(is_array($lowOutCabinet)) $arr = array_merge($arr, $lowOutCabinet);
-		if(is_array($metering)) $arr = array_merge($arr, $metering);
-		if(is_array($others)) $arr = array_merge($arr, $others);
-		$str = $arr ? implode(',', $arr) : '-1';
+		if(!empty($lowOutCabinet)) {
+			$arr = array_merge($arr, $lowOutCabinet);
+		}
+		if(!empty($metering)) {
+			$arr = array_merge($arr, $metering);
+		}
+		if(!empty($others)) {
+			$arr = array_merge($arr, $others);
+		}
+		$str = implode(',', $arr);
 		return $str;
 	}
 

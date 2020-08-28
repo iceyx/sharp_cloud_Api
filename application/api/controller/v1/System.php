@@ -19,11 +19,9 @@ class System extends Api
      */
     protected $noAuth = ['settingInfo'];
 
-
-
 	public function settingInfo()
 	{
 		$info = SettingModel::getSetting();
-		return self::returnMsg(200,'success',$info);
+		return render_json($info);
 	}
 }

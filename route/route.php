@@ -26,7 +26,7 @@ Route::get(':version/user/logout','api/:version.user/logout');
 Route::get(':version/user/getUserInfo','api/:version.user/getUserInfo');
 
 //app配置信息
-Route::post(':version/System/settingInfo','api/:version.System/settingInfo');
+Route::get(':version/System/settingInfo','api/:version.System/settingInfo');
 
 //企业用电-电量（饼图）
 Route::post(':version/EnterPrise/electriCityPie','api/:version.EnterPrise/electriCityPie');

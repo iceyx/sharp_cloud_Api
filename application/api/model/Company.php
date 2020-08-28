@@ -91,6 +91,85 @@ class Company extends Model
     	return $company_id;
     }
 
+        /**
+     * @DateTime 2020-05-22T18:28:47+0800
+     * @param    [array]
+     * @return   [array]
+     */
+    public static function getCompanyFaultByUid($uid)
+    {   
+        $arr = [];
+        $user = User::getUserinfo($uid);
+        $query = Db::table('sys_user')
+                        ->alias('u')
+                        ->leftJoin(['tran_user_company uc'], 'u.USER_ID = uc.USER_ID')
+                        ->field('u.USER_ID, u.NAME as staff_name, uc.COMPANY_ID')
+                        ->where('u.USER_TYPE','eq', '2')
+                        ->buildSql();
+        $field = 'c.ID, c.NAME, c.LONGITUDE, c.LATITUDE, c.ADDRESS, q.staff_name';
+        if ($user['USER_TYPE'] == 0) {
+            switch ($user['AREA_ID']) {
+                case -1:
+                    //超级管理员
+                    
+                    $company_id = Company::alias('c')
+                                            ->leftJoin([$query."q"]," c.ID = q.COMPANY_ID")
+                                            ->field($field)
+                                            ->where('c.PID', 'neq', '0')
+                                            ->select()->toArray();
+                    break;
+                default:
+                //区域管理员
+                    $area = Db::table('sys_dictionaries')->where('DICTIONARIES_ID', 'eq', 'AREA_ID')->field('PARENT_ID')->find();
+
+                    if ($area['PARENT_ID'] == '1') {
+                        //需要查询该区域子级城市
+                        $area = Db::table('sys_dictionaries')->where('PARENT_ID', 'eq', $user['AREA_ID'])->select();
+                        foreach ($area as $key => $value) {
+                            $str.= $value['DICTIONARIES_ID'].',';
+                        }
+                        $areaid = rtrim($str,',');
+                        $company_id = Company::alias('c')
+                                            ->leftJoin([$query.'q'], 'c.ID = q.COMPANY_ID')
+                                            ->whereIn('AREA_ID',$areaid)->where('PID','neq','0')
+                                            ->field($field)
+                                            ->select()->toArray();
+                        
+                    }else{
+                        //查询该区域的公司
+                        $areaid = $user['AREA_ID'];
+                        $where['c.AREA_ID'] = ['=', $areaid];
+                        $where['c.PID'] = ['!=', '0'];
+                        $company_id = Company::alias('c')
+                                            ->leftJoin([$query.'q'], 'c.ID = q.COMPANY_ID')
+                                            ->where($where)
+                                            ->field($field)
+                                            ->select()->toArray();
+                    }
+
+                    break;
+            }
+
+        }else{//电工企业用户
+            $company_id = Db::table('tran_user_company')
+                        ->alias('t')
+                        ->leftJoin([$query.'q'], 't.COMPANY_ID = q.COMPANY_ID')
+                        ->leftJoin('company c','t.COMPANY_ID = c.ID')
+                        ->where('t.USER_ID','=', $user['USER_ID'])
+                        ->field($field.',c.COMPANY_TYPE')
+                        ->group('q.staff_name')
+                        ->select()->toArray();
+            // if ($company_id) {
+            //     foreach ($company_id as $key => $value) {
+            //         if ($value['ID'] != null) {
+            //             $company_id[] = $value;
+            //         }
+            //     }
+            // }
+        }
+        return $company_id;
+    }
+
 
     /**
      * 以用户id、城市名称查找公司列表

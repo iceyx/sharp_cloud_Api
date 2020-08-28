@@ -23,3 +23,6 @@
  
 2020-08-20 17:25:08
  提交数据：{"\/v1\/DataQuery\/figure":"","LINK_NUMBER":"0001002003003","HIS_NOW":"2","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","TYPE":"\u4e09\u76f8\u7535\u6d41","START_TIME":"2020-05-14 00:00:00","END_TIME":"2020-05-14 23:59:59","version":"v1"}
+ 
+2020-08-24 08:39:38
+ 提交数据：{"\/v1\/DataQuery\/figure":"","LINK_NUMBER":"0001002003003","HIS_NOW":"2","CATEGORY":"\u4f4e\u538b\u8fdb\u7ebf\u67dc","TYPE":"\u4e09\u76f8\u7535\u6d41","START_TIME":"2020-05-14 00:00:00","END_TIME":"2020-05-14 23:59:59","version":"v1"}
