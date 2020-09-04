@@ -174,10 +174,10 @@ class Company extends Api
 			foreach ($arr as $a => $b) {
 				foreach ($now_list as $key => $value) {
 					if ($value['TIME1'] == $b) {
-						$yAxis[$b] = (double) sprintf("%.2f", $value['AVERAGE_LOAD']);
+						$yAxis[$b] = (string) sprintf("%.2f", $value['AVERAGE_LOAD']);
 						break;
 					}else{
-						$yAxis[$b] = 0;
+						$yAxis[$b] = '0';
 					}
 				}
 			}
@@ -187,10 +187,10 @@ class Company extends Api
 			foreach ($arr as $a => $b) {
 				foreach ($past_list as $key => $value) {
 					if ($value['TIME1'] == $b) {
-						$yAxis_past[$b] = (double) sprintf("%.2f", $value['AVERAGE_LOAD']);
+						$yAxis_past[$b] = (string) sprintf("%.2f", $value['AVERAGE_LOAD']);
 						break;
 					}else{
-						$yAxis_past[$b] = 0;
+						$yAxis_past[$b] = '0';
 					}
 				}
 			}
@@ -198,7 +198,7 @@ class Company extends Api
 
 		$data[0]['name'] = '今天';
 		$data[1]['name'] = '昨天';
-		$array = array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+		$array = [];
 		$data[0]['values'] = $yAxis ? array_values($yAxis) : $array;
 		$data[1]['values'] = $yAxis_past ? array_values($yAxis_past) : $array;
 
@@ -234,16 +234,16 @@ class Company extends Api
 			$newarr=array_change_key_case($newarr,CASE_LOWER);
 			array_case($newarr);
 		}
-
 		$newarr['yAxisUnit']='KWH';
 		$newarr['xAxisUnit']='时';
 		$newarr['lineData']=$data;
 		$newarr['xAxis']=$arr;
-		$newarr['item'] =implode(',',$data[0]['values']);
-		$newarr['item1'] =implode(',',$data[1]['values']);
-		$newarr['item2'] =implode(',',$arr);
-		//file_put_contents('log.txt',"\r\n \r\n".date('Y-m-d H:i:s',time())."\r\n ".'输出数据：'.json_encode($newarr),FILE_APPEND);
-		return render_json($newarr);
+		// $newarr['item'] =implode(',',$data[0]['values']);
+		// $newarr['item1'] =implode(',',$data[1]['values']);
+		// $newarr['item2'] =implode(',',$arr);
+		//file_put_contents('log.txt',"\r\n \r\n".date('Y-m-d H:i:s',time())."\r\n ".'输出数据：'.json_encode($newarr),FILE_APPEND);\
+		//return $now_list->toArray() && $past_list->toArray() ? render_json($newarr) : render_json('','暂无数据！',300);
+	return render_json($newarr);
 
 	}
 

@@ -17,11 +17,22 @@ class System extends Api
      * 所有方法都不需要鉴权
      * [*]
      */
-    protected $noAuth = ['settingInfo'];
+    protected $noAuth = ['settingInfo', 'version'];
 
 	public function settingInfo()
 	{
 		$info = SettingModel::getSetting();
 		return render_json($info);
 	}
+
+
+    /**
+     * [version description]
+     * @DateTime 2020-08-31T09:07:38+0800
+     * @return   [type]                   [description]
+     */
+    public function version()
+    {
+        return render_json(SettingModel::versionDetail());
+    }
 }

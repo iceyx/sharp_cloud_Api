@@ -100,4 +100,7 @@ Route::post(':version/EnergyAnalysis/fpg','api/:version.EnergyAnalysis/fpg');
 //需量分析
 Route::post(':version/EnergyAnalysis/demandAnalysis','api/:version.EnergyAnalysis/demandAnalysis');
 
+//版本信息
+Route::get(':version/System/version','api/:version.System/version');
+
 

@@ -263,8 +263,6 @@ class DataQuery extends Api
 		ValidataCommon::validateCheck(['LINK_NUMBER' => 'require'], $this->request->param('')); //参数验证设备编码
 		ValidataCommon::validateCheck(['HIS_NOW' => 'require'], $this->request->param('')); //参数验证历史数据还是实时数据
 		ValidataCommon::validateCheck(['CATEGORY' => 'require'], $this->request->param('')); //参数验证分类
-		$param['START_TIME'] = '2020-05-14 00:00:00';
-		$param['END_TIME'] = '2020-05-14 23:59:59';
 		if ($param['HIS_NOW'] == 1) {
 			$START_TIME = date("Y-m-d H:i:s",mktime(0,0,0,date("m"),date("d"),date("Y")));
 			$END_TIME = date("Y-m-d H:i:s",mktime(23,59,59,date("m"),date("d"),date("Y")));
@@ -279,6 +277,7 @@ class DataQuery extends Api
 		
 		//$whereT = ['TIME', $START_TIME, $END_TIME];
 		$field = 'TIME, LINK_NUMBER';
+		logTxt($param);
 		$where['LINK_NUMBER'] = $param['LINK_NUMBER'];
 		switch ($param['CATEGORY']) {
 			case '计量柜':
@@ -573,11 +572,19 @@ class DataQuery extends Api
 
 			case '变压器':
 				// $field = 'TIME,LINK_NUMBER';
-				// $where['LINK_NUMBER'] = $param['LINK_NUMBER'];
+				$where['LINK_NUMBER'] = $param['LINK_NUMBER'];
 				$xAxisUnit = '时间';
 				$yAxisUnit = '温度:℃';
-				$field = $field.",TEMPERATURE_A,TEMPERATURE_B,TEMPERATURE_C,date_format(TIME,'%Y-%m-%d %H:%i') as TIME1";
+				$field = $field.",TEMPERATURE_A,TEMPERATURE_B,TEMPERATURE_C,date_format(TIME,'%H:%i') as TIME1";
+				$fields = $field.",max(TEMPERATURE_A) as MAX_TEMPERATURE_A,max(TEMPERATURE_B) as MAX_TEMPERATURE_B,max(TEMPERATURE_C) as MAX_TEMPERATURE_C, min(TEMPERATURE_A) as MIN_TEMPERATURE_A, min(TEMPERATURE_B) as MIN_TEMPERATURE_B, min(TEMPERATURE_C) as MIN_TEMPERATURE_C, avg(TEMPERATURE_A) as AVG_TEMPERATURE_A, avg(TEMPERATURE_B) as AVG_TEMPERATURE_B, avg(TEMPERATURE_C) as AVG_TEMPERATURE_C";
+				$res = TemperatureControllerDataHistory::getValue($where, $fields ,$START_TIME,$END_TIME);
 				$list = TemperatureControllerDataHistory::getList($where, $field, $START_TIME,$END_TIME);
+				$max = $res[0] ? max($res[0]['MAX_TEMPERATURE_A'],$res[0]['MAX_TEMPERATURE_B'],$res[0]['MAX_TEMPERATURE_C']) : 0;
+				$min = $res[0] ? min($res[0]['MIN_TEMPERATURE_A'], $res[0]['MIN_TEMPERATURE_B'], $res[0]['MIN_TEMPERATURE_C']) : 0;
+				$avgres = round(($res[0]['AVG_TEMPERATURE_A'] + $res[0]['AVG_TEMPERATURE_B'] + $res[0]['AVG_TEMPERATURE_C']) / 3, 2);
+				$avg['max'] = sprintf("%.2f", $max);
+				$avg['min'] = sprintf("%.2f", $min);
+				$avg['avg'] = sprintf("%.2f", $avgres);
 				$arr[0]['name'] = 'A项温度';
 				$arr[1]['name'] = 'B项温度';
 				$arr[2]['name'] = 'C项温度';
@@ -595,52 +602,60 @@ class DataQuery extends Api
 
 			case '低压进线柜':
 				$xAxisUnit='时间';
-				logTxt($param);
 				switch ($param['TYPE']) {
 					case '三相电流':
-						$returnArr = $this->lowInAndOutCabinetCurrent($where, $field);
+						$returnArr = $this->lowInAndOutCabinetCurrent($where, $field,$START_TIME,$END_TIME);
 						return render_json($returnArr);
 						break;
 
 					case '三相电压':
-						$returnArr = $this->lowInAndOutCabinetVoltage($where, $field);
+						$returnArr = $this->lowInAndOutCabinetVoltage($where, $field,$START_TIME,$END_TIME);
 						return render_json($returnArr);
 						break;
 
 					case '功率因数':
-						$returnArr = $this->lowInAndOutCabinetPowerFactor($where, $field);
+						$returnArr = $this->lowInAndOutCabinetPowerFactor($where, $field,$START_TIME,$END_TIME);
 						return render_json($returnArr);
 						break;
 
 					case '有功电量':
-						$returnArr = $this->lowInAndOutCabinetActiveElect($where, $field);
+						$returnArr = $this->lowInAndOutCabinetActiveElect($where, $field,$START_TIME,$END_TIME);
 						return render_json($returnArr);
 						break;
 
 					case '无功电量':
-						$returnArr = $this->lowInAndOutCabinetReactiveElect($where, $field);
+						$returnArr = $this->lowInAndOutCabinetReactiveElect($where, $field,$START_TIME,$END_TIME);
 						return render_json($returnArr);
 						break;
 
 					case '有功功率':
-						$returnArr = $this->lowInAndOutCabinetActivePower($where, $field);
+						$returnArr = $this->lowInAndOutCabinetActivePower($where, $field,$START_TIME,$END_TIME);
 						return render_json($returnArr);
 						break;
 
 					case '无功功率':
-						$returnArr = $this->lowInAndOutCabinetReactivePower($where, $field);
+						$returnArr = $this->lowInAndOutCabinetReactivePower($where, $field,$START_TIME,$END_TIME);
 						return render_json($returnArr);
 						break;
 
 					case '频率':
-						$returnArr = $this->lowInAndOutCabinetFrequency($where, $field);
+						$returnArr = $this->lowInAndOutCabinetFrequency($where, $field,$START_TIME,$END_TIME);
 						return render_json($returnArr);
 						break;
 					
 					case '三相谐波电流':
 						$field = $field.",HARMONIC_CURRENT_A,HARMONIC_CURRENT_B,HARMONIC_CURRENT_C,date_format(TIME,'%H:%i') as TIME1";
-						$yAxisUnit = "三相谐波电流: A";
-						$list = MultimeterDataHistory::getList($where, $field);
+						$yAxisUnit = "电流: A";
+						$fields = $field.",max(HARMONIC_CURRENT_A) as MAX_HARMONIC_CURRENT_A,max(HARMONIC_CURRENT_B) as MAX_HARMONIC_CURRENT_B,max(HARMONIC_CURRENT_C) as MAX_HARMONIC_CURRENT_C, min(HARMONIC_CURRENT_A) as MIN_HARMONIC_CURRENT_A, min(HARMONIC_CURRENT_B) as MIN_HARMONIC_CURRENT_B, min(HARMONIC_CURRENT_C) as MIN_HARMONIC_CURRENT_C, avg(HARMONIC_CURRENT_A) as AVG_HARMONIC_CURRENT_A, avg(HARMONIC_CURRENT_B) as AVG_HARMONIC_CURRENT_B, avg(HARMONIC_CURRENT_C) as AVG_HARMONIC_CURRENT_C";
+						//最大值查询//最小值查询//平均值查询
+						$res = MultimeterDataHistory::getValue($where, $fields,$START_TIME,$END_TIME);
+						$list = MultimeterDataHistory::getList($where, $field,$START_TIME,$END_TIME);
+						$max = $res[0] ? max($res[0]['MAX_HARMONIC_CURRENT_A'],$res[0]['MAX_HARMONIC_CURRENT_B'],$res[0]['MAX_HARMONIC_CURRENT_C']) : 0;
+						$min = $res[0] ? min($res[0]['MIN_HARMONIC_CURRENT_A'], $res[0]['MIN_HARMONIC_CURRENT_B'], $res[0]['MIN_HARMONIC_CURRENT_C']) : 0;
+						$avgres = round(($res[0]['AVG_HARMONIC_CURRENT_A'] + $res[0]['AVG_HARMONIC_CURRENT_B'] + $res[0]['AVG_HARMONIC_CURRENT_C']) / 3, 2);
+						$avg['max'] = sprintf("%.2f", $max);
+						$avg['min'] = sprintf("%.2f", $min);
+						$avg['avg'] = sprintf("%.2f", $avgres);
 						$arr[0]['name'] = '三相谐波电流A';
 						$arr[1]['name'] = '三相谐波电流B';
 						$arr[2]['name'] = '三相谐波电流C';
@@ -648,7 +663,7 @@ class DataQuery extends Api
 						$arr[1]['list'] = [];
 						$arr[2]['list'] = [];
 						$xAxis = [];
-						foreach ($list as $key => $value) {
+						foreach ($list as $key => $val) {
 							$arr[0]['list'][] = $val['HARMONIC_CURRENT_A'];
 							$arr[1]['list'][] = $val['HARMONIC_CURRENT_B'];
 							$arr[2]['list'][] = $val['HARMONIC_CURRENT_C'];
@@ -658,8 +673,17 @@ class DataQuery extends Api
 
 					case '三相谐波电压':
 						$field = $field.",HARMONIC_VOLTAGE_B,HARMONIC_VOLTAGE_C,HARMONIC_VOLTAGE_A,date_format(TIME,'%H:%i') as TIME1";
-						$yAxisUnit = "三相谐波电压: V";
-						$list = MultimeterDataHistory::getList($where, $field);
+						$yAxisUnit = "电压: V";
+						$fields = $field.",max(HARMONIC_VOLTAGE_A) as MAX_HARMONIC_VOLTAGE_A,max(HARMONIC_VOLTAGE_B) as MAX_HARMONIC_VOLTAGE_B,max(HARMONIC_VOLTAGE_C) as MAX_HARMONIC_VOLTAGE_C, min(HARMONIC_VOLTAGE_A) as MIN_HARMONIC_VOLTAGE_A, min(HARMONIC_VOLTAGE_B) as MIN_HARMONIC_VOLTAGE_B, min(HARMONIC_VOLTAGE_C) as MIN_HARMONIC_VOLTAGE_C, avg(HARMONIC_VOLTAGE_A) as AVG_HARMONIC_VOLTAGE_A, avg(HARMONIC_VOLTAGE_B) as AVG_HARMONIC_VOLTAGE_B, avg(HARMONIC_VOLTAGE_C) as AVG_HARMONIC_VOLTAGE_C";
+						//最大值查询//最小值查询//平均值查询
+						$res = MultimeterDataHistory::getValue($where, $fields ,$START_TIME,$END_TIME);
+						$list = MultimeterDataHistory::getList($where, $field,$START_TIME,$END_TIME);
+						$max = $res[0] ? max($res[0]['MAX_HARMONIC_VOLTAGE_A'],$res[0]['MAX_HARMONIC_VOLTAGE_B'],$res[0]['MAX_HARMONIC_VOLTAGE_C']) : 0;
+						$min = $res[0] ? min($res[0]['MIN_HARMONIC_VOLTAGE_A'], $res[0]['MIN_HARMONIC_VOLTAGE_B'], $res[0]['MIN_HARMONIC_VOLTAGE_C']) : 0;
+						$avgres = round(($res[0]['AVG_HARMONIC_VOLTAGE_A'] + $res[0]['AVG_HARMONIC_VOLTAGE_B'] + $res[0]['AVG_HARMONIC_VOLTAGE_C']) / 3, 2);
+						$avg['max'] = sprintf("%.2f", $max);
+						$avg['min'] = sprintf("%.2f", $min);
+						$avg['avg'] = sprintf("%.2f", $avgres);
 						$arr[0]['name'] = '三相谐波电压A';
 						$arr[1]['name'] = '三相谐波电压B';
 						$arr[2]['name'] = '三相谐波电压C';
@@ -667,7 +691,7 @@ class DataQuery extends Api
 						$arr[1]['list'] = [];
 						$arr[2]['list'] = [];
 						$xAxis = [];
-						foreach ($list as $key => $value) {
+						foreach ($list as $key => $val) {
 							$arr[0]['list'][] = $val['HARMONIC_VOLTAGE_A'];
 							$arr[1]['list'][] = $val['HARMONIC_VOLTAGE_B'];
 							$arr[2]['list'][] = $val['HARMONIC_VOLTAGE_C'];
@@ -679,12 +703,16 @@ class DataQuery extends Api
 					case '需量':
 						$field = $field.",DEMAND,date_format(TIME,'%H:%i') as TIME1";
 						$yAxisUnit = "需量: ";
-						$list = MultimeterDataHistory::getList($where, $field);
+						$fields = $field.",max(DEMAND) as DEMANDS";
+						//最大值查询//最小值查询//平均值查询
+						$res = MultimeterDataHistory::getValue($where, $fields ,$START_TIME,$END_TIME);
+						$avg['max'] = sprintf("%.2f", $res[0]['DEMANDS']);
+						$list = MultimeterDataHistory::getList($where, $field,$START_TIME,$END_TIME);
 						$arr[0]['name'] = '需量';
 						$arr[0]['list'] = [];
 						$xAxis = [];
-						foreach ($list as $key => $value) {
-							$arr[0]['list'][] = $val['DEMAND'];
+						foreach ($list as $key => $val) {
+							$arr[0]['list'][$key] = (string)$val['DEMAND'];
 							$xAxis[] = $val['TIME1'];
 						}
 
@@ -700,41 +728,41 @@ class DataQuery extends Api
 			case '低压出线柜':
 				switch ($param['TYPE']) {
 					case '三相电流':
-						$returnArr = $this->lowInAndOutCabinetCurrent($where);
+						$returnArr = $this->lowInAndOutCabinetCurrent($where, $field,$START_TIME,$END_TIME);
 						return render_json($returnArr);
 						break;
 					case '三相电压':
-						$returnArr = $this->lowInAndOutCabinetVoltage($where, $field);
+						$returnArr = $this->lowInAndOutCabinetVoltage($where, $field,$START_TIME,$END_TIME);
 						return render_json($returnArr);
 						break;
 
 					case '功率因数':
-						$returnArr = $this->lowInAndOutCabinetPowerFactor($where, $field);
+						$returnArr = $this->lowInAndOutCabinetPowerFactor($where, $field,$START_TIME,$END_TIME);
 						return render_json($returnArr);
 						break;
 
 					case '有功电量':
-						$returnArr = $this->lowInAndOutCabinetActiveElect($where, $field);
+						$returnArr = $this->lowInAndOutCabinetActiveElect($where, $field,$START_TIME,$END_TIME);
 						return render_json($returnArr);
 						break;
 
 					case '无功电量':
-						$returnArr = $this->lowInAndOutCabinetReactiveElect($where, $field);
+						$returnArr = $this->lowInAndOutCabinetReactiveElect($where, $field,$START_TIME,$END_TIME);
 						return render_json($returnArr);
 						break;
 
 					case '有功功率':
-						$returnArr = $this->lowInAndOutCabinetActivePower($where, $field);
+						$returnArr = $this->lowInAndOutCabinetActivePower($where, $field,$START_TIME,$END_TIME);
 						return render_json($returnArr);
 						break;
 
 					case '无功功率':
-						$returnArr = $this->lowInAndOutCabinetReactivePower($where, $field);
+						$returnArr = $this->lowInAndOutCabinetReactivePower($where, $field,$START_TIME,$END_TIME);
 						return render_json($returnArr);
 						break;
 
 					case '频率':
-						$returnArr = $this->lowInAndOutCabinetFrequency($where, $field);
+						$returnArr = $this->lowInAndOutCabinetFrequency($where, $field,$START_TIME,$END_TIME);
 						return render_json($returnArr);
 						break;
 					
@@ -799,6 +827,7 @@ class DataQuery extends Api
 		$returnArr['chart'] = $arr;
 		$returnArr['yAxisUnit'] = $yAxisUnit;
 		$returnArr['xAxisUnit'] = $xAxisUnit;
+		$returnArr['avg'] = $avg;
 		$returnArr['xAxis'] = $xAxis;
 		foreach ($returnArr['chart'] as $key => $value) {
 			foreach ($value['list'] as $k => $v) {
@@ -1372,23 +1401,35 @@ class DataQuery extends Api
 	 * @param    [type]
 	 * @return   [type]
 	 */
-	private function lowInAndOutCabinetFrequency($where, $field)
+	private function lowInAndOutCabinetFrequency($where, $field, $start, $end)
 	{	
 		$xAxisUnit = '时间';
 		$field = $field.",FREQUENCY,date_format(TIME,'%H:%i') as TIME1";
 		$yAxisUnit = "频率: HZ";
-		$list = MultimeterDataHistory::getList($where, $field);
+		$fields = $field.",max(FREQUENCY) as FREQUENCY";
+		//最大值查询//最小值查询//平均值查询
+		$res = MultimeterDataHistory::getValue($where, $fields , $start, $end);
+		$avg['max'] = sprintf("%.2f", $res[0]['FREQUENCY']);
+		$list = MultimeterDataHistory::getList($where, $field , $start, $end);
 		$arr[0]['name'] = '无功功率';
 		$arr[0]['list'] = [];
 		$xAxis = [];
-		foreach ($list as $key => $value) {
+		foreach ($list as $key => $val) {
 			$arr[0]['list'][] = $val['FREQUENCY'];
 			$xAxis[] = $val['TIME1'];
 		}
-		$returnArr['data'] = $arr;
+		$returnArr['chart'] = $arr;
 		$returnArr['yAxisUnit'] = $yAxisUnit;
 		$returnArr['xAxisUnit'] = $xAxisUnit;
+		$returnArr['avg'] = $avg;
 		$returnArr['xAxis'] = $xAxis;
+		foreach ($returnArr['chart'] as $key => $value) {
+			foreach ($value['list'] as $k => $v) {
+				$value['list'][$k] = sprintf("%.2f", $v);
+			}
+			$returnArr['chart'][$key]['list'] = array_slice($value['list'], -100);
+		}
+		$returnArr['xAxis'] = $arr = array_slice($returnArr['xAxis'], -100);
 		return $returnArr;
 	}
 
@@ -1399,23 +1440,35 @@ class DataQuery extends Api
 	 * @param    [type]
 	 * @return   [type]
 	 */
-	private function lowInAndOutCabinetReactivePower($where, $field)
+	private function lowInAndOutCabinetReactivePower($where, $field, $start, $end)
 	{	
 		$xAxisUnit = '时间';
 		$field = $field.",REACTIVE_POWER,date_format(TIME,'%H:%i') as TIME1";
 		$yAxisUnit = "无功功率: KRV";
-		$list = MultimeterDataHistory::getList($where, $field);
+		$fields = $field.",max(REACTIVE_POWER) as REACTIVE_POWER";
+		//最大值查询//最小值查询//平均值查询
+		$res = MultimeterDataHistory::getValue($where, $fields , $start, $end);
+		$avg['max'] = sprintf("%.2f", $res[0]['REACTIVE_POWER']);
+		$list = MultimeterDataHistory::getList($where, $field , $start, $end);
 		$arr[0]['name'] = '无功功率';
 		$arr[0]['list'] = [];
 		$xAxis = [];
-		foreach ($list as $key => $value) {
+		foreach ($list as $key => $val) {
 			$arr[0]['list'][] = $val['REACTIVE_POWER'];
 			$xAxis[] = $val['TIME1'];
 		}
-		$returnArr['data'] = $arr;
+		$returnArr['chart'] = $arr;
 		$returnArr['yAxisUnit'] = $yAxisUnit;
 		$returnArr['xAxisUnit'] = $xAxisUnit;
+		$returnArr['avg'] = $avg;
 		$returnArr['xAxis'] = $xAxis;
+		foreach ($returnArr['chart'] as $key => $value) {
+			foreach ($value['list'] as $k => $v) {
+				$value['list'][$k] = sprintf("%.2f", $v);
+			}
+			$returnArr['chart'][$key]['list'] = array_slice($value['list'], -100);
+		}
+		$returnArr['xAxis'] = $arr = array_slice($returnArr['xAxis'], -100);
 		return $returnArr;
 	}
 
@@ -1425,23 +1478,35 @@ class DataQuery extends Api
 	 * @param    [type]
 	 * @return   [type]
 	 */
-	private function lowInAndOutCabinetActivePower($where, $field)
+	private function lowInAndOutCabinetActivePower($where, $field, $start, $end)
 	{	
 		$xAxisUnit = '时间';
 		$field = $field.",ACTIVE_POWER,date_format(TIME,'%H:%i') as TIME1";
 		$yAxisUnit = "有功功率: KW";
-		$list = MultimeterDataHistory::getList($where, $field);
+		$fields = $field.",max(ACTIVE_POWER) as ACTIVE_POWER";
+		//最大值查询//最小值查询//平均值查询
+		$res = MultimeterDataHistory::getValue($where, $fields , $start, $end);
+		$avg['max'] = sprintf("%.2f", $res[0]['ACTIVE_POWER']);
+		$list = MultimeterDataHistory::getList($where, $field , $start, $end);
 		$arr[0]['name'] = '有功功率';
 		$arr[0]['list'] = [];
 		$xAxis = [];
-		foreach ($list as $key => $value) {
+		foreach ($list as $key => $val) {
 			$arr[0]['list'][] = $val['ACTIVE_POWER'];
 			$xAxis[] = $val['TIME1'];
 		}
-		$returnArr['data'] = $arr;
+		$returnArr['chart'] = $arr;
 		$returnArr['yAxisUnit'] = $yAxisUnit;
 		$returnArr['xAxisUnit'] = $xAxisUnit;
+		$returnArr['avg'] = $avg;
 		$returnArr['xAxis'] = $xAxis;
+		foreach ($returnArr['chart'] as $key => $value) {
+			foreach ($value['list'] as $k => $v) {
+				$value['list'][$k] = sprintf("%.2f", $v);
+			}
+			$returnArr['chart'][$key]['list'] = array_slice($value['list'], -100);
+		}
+		$returnArr['xAxis'] = $arr = array_slice($returnArr['xAxis'], -100);
 		return $returnArr;
 	}
 
@@ -1452,24 +1517,35 @@ class DataQuery extends Api
 	 * @param    [type]
 	 * @return   [type]
 	 */
-	private function lowInAndOutCabinetReactiveElect($where, $field)
+	private function lowInAndOutCabinetReactiveElect($where, $field, $start, $end)
 	{	
 		$xAxisUnit = '时间';
 		$field =$field.",REACTIVE_ELECTRICITY,date_format(TIME,'%H:%i') as TIME1";
 		$yAxisUnit="无功电量: KVRA";
-
-		$list = MultimeterDataHistory::getList($where, $field);
+		$fields = $field.",max(REACTIVE_ELECTRICITY) as REACTIVE_ELECTRICITY";
+		//最大值查询//最小值查询//平均值查询
+		$res = MultimeterDataHistory::getValue($where, $fields , $start, $end);
+		$avg['max'] = sprintf("%.2f", $res[0]['REACTIVE_ELECTRICITY']);
+		$list = MultimeterDataHistory::getList($where, $field, $start, $end);
 		$arr[0]['name'] = '无功电量';
 		$arr[0]['list'] = [];
 		$xAxis = [];
-		foreach ($list as $key => $value) {
+		foreach ($list as $key => $val) {
 			$arr[0]['list'][] = $val['REACTIVE_ELECTRICITY'];
 			$xAxis[] = $val['TIME1'];
 		}
-		$returnArr['data'] = $arr;
+		$returnArr['chart'] = $arr;
 		$returnArr['yAxisUnit'] = $yAxisUnit;
 		$returnArr['xAxisUnit'] = $xAxisUnit;
+		$returnArr['avg'] = $avg;
 		$returnArr['xAxis'] = $xAxis;
+		foreach ($returnArr['chart'] as $key => $value) {
+			foreach ($value['list'] as $k => $v) {
+				$value['list'][$k] = sprintf("%.2f", $v);
+			}
+			$returnArr['chart'][$key]['list'] = array_slice($value['list'], -100);
+		}
+		$returnArr['xAxis'] = $arr = array_slice($returnArr['xAxis'], -100);
 		return $returnArr;
 	}
 
@@ -1480,24 +1556,36 @@ class DataQuery extends Api
 	 * @param    [type]
 	 * @return   [type]
 	 */
-	private function lowInAndOutCabinetActiveElect($where, $field)
+	private function lowInAndOutCabinetActiveElect($where, $field, $start, $end)
 	{	
 		$xAxisUnit = '时间';
 		$field = $field.",ACTIVE_ELECTRICITY,date_format(TIME,'%H:%i') as TIME1";
 		$yAxisUnit = "有功电量: KWH";
-		$list = MultimeterDataHistory::getList($where, $field);
+		$fields = $field.",max(ACTIVE_ELECTRICITY) as ACTIVE_ELECTRICITY";
+		//最大值查询//最小值查询//平均值查询
+		$res = MultimeterDataHistory::getValue($where, $fields , $start, $end);
+		$avg['max'] = sprintf("%.2f", $res[0]['ACTIVE_ELECTRICITY']);
+		$list = MultimeterDataHistory::getList($where, $field, $start, $end);
 		$arr[0]['name'] = '有功电量';
 		$arr[0]['list'] = [];
 		$xAxis = [];
 		foreach ($list as $key => $value) {
-			$arr[0]['list'][] = $val['ACTIVE_ELECTRICITY'];
-			$xAxis[] = $val['TIME1'];
+			$arr[0]['list'][] = $value['ACTIVE_ELECTRICITY'];
+			$xAxis[] = $value['TIME1'];
 		}
 
-		$returnArr['data'] = $arr;
+		$returnArr['chart'] = $arr;
 		$returnArr['yAxisUnit'] = $yAxisUnit;
 		$returnArr['xAxisUnit'] = $xAxisUnit;
+		$returnArr['avg'] = $avg;
 		$returnArr['xAxis'] = $xAxis;
+		foreach ($returnArr['chart'] as $key => $value) {
+			foreach ($value['list'] as $k => $v) {
+				$value['list'][$k] = sprintf("%.2f", $v);
+			}
+			$returnArr['chart'][$key]['list'] = array_slice($value['list'], -100);
+		}
+		$returnArr['xAxis'] = $arr = array_slice($returnArr['xAxis'], -100);
 		return $returnArr;
 	}
 
@@ -1509,25 +1597,35 @@ class DataQuery extends Api
 	 * @param    [type]
 	 * @return   [type]
 	 */
-	private function lowInAndOutCabinetPowerFactor($where, $field)
+	private function lowInAndOutCabinetPowerFactor($where, $field, $start, $end)
 	{	
 		$xAxisUnit = '时间';
 		$field = $field.",POWER_FACTOR,date_format(TIME,'%H:%i') as TIME1";
 		$yAxisUnit = "因数: ";
-
-		$list = MultimeterDataHistory::getList($where, $field);
+		$fields = $field.",max(POWER_FACTOR) as MAX_POWER_FACTOR";
+		//最大值查询//最小值查询//平均值查询
+		$res = MultimeterDataHistory::getValue($where, $fields , $start, $end);
+		$list = MultimeterDataHistory::getList($where, $field, $start, $end);
 		$arr[0]['name'] = '功率因数';
 		$arr[0]['list'] = [];
 		$xAxis = [];
 		foreach ($list as $key => $value) {
-			$arr[0]['list'][] = $val['POWER_FACTOR'];
-			$xAxis[] = $val['TIME1'];
+			$arr[0]['list'][] = $value['POWER_FACTOR'];
+			$xAxis[] = $value['TIME1'];
 		}
-
-		$returnArr['data'] = $arr;
+		$avg['max'] = sprintf("%.2f", $res[0]['MAX_POWER_FACTOR']);
+		$returnArr['chart'] = $arr;
 		$returnArr['yAxisUnit'] = $yAxisUnit;
 		$returnArr['xAxisUnit'] = $xAxisUnit;
+		$returnArr['avg'] = $avg;
 		$returnArr['xAxis'] = $xAxis;
+		foreach ($returnArr['chart'] as $key => $value) {
+			foreach ($value['list'] as $k => $v) {
+				$value['list'][$k] = sprintf("%.2f", $v);
+			}
+			$returnArr['chart'][$key]['list'] = array_slice($value['list'], -100);
+		}
+		$returnArr['xAxis'] = $arr = array_slice($returnArr['xAxis'], -100);
 		return $returnArr;
 	}
 
@@ -1538,12 +1636,21 @@ class DataQuery extends Api
 	 * @param    [type]
 	 * @return   [type]
 	 */
-	private function lowInAndOutCabinetVoltage($where, $field)
+	private function lowInAndOutCabinetVoltage($where, $field, $start, $end)
 	{	
 		$xAxisUnit = '时间';
 		$field = $field.",VOLTAGE_A,VOLTAGE_B,VOLTAGE_C,date_format(TIME,'%H:%i') as TIME1";
 		$yAxisUnit = "电压: V";
-		$list = MultimeterDataHistory::getList($where, $field);
+		$fields = $field.",max(VOLTAGE_A) as MAX_VOLTAGE_A,max(VOLTAGE_B) as MAX_VOLTAGE_B,max(VOLTAGE_C) as MAX_VOLTAGE_C,min(VOLTAGE_A) as MIN_VOLTAGE_A,min(VOLTAGE_B) as MIN_VOLTAGE_B,min(VOLTAGE_C) as MIN_VOLTAGE_C,avg(VOLTAGE_A) as AVG_VOLTAGE_A,avg(VOLTAGE_B) as AVG_VOLTAGE_B,avg(VOLTAGE_C) as AVG_VOLTAGE_C";
+		//最大值查询//最小值查询//平均值查询
+		$res = MultimeterDataHistory::getValue($where, $fields , $start, $end);
+		$max = $res[0] ? max($res[0]['MAX_VOLTAGE_A'],$res[0]['MAX_VOLTAGE_B'],$res[0]['MAX_VOLTAGE_C']) : 0;
+		$min = $res[0] ? min($res[0]['MIN_VOLTAGE_A'], $res[0]['MIN_VOLTAGE_B'], $res[0]['MIN_VOLTAGE_C']) : 0;
+		$avgres = round(($res[0]['AVG_VOLTAGE_A'] + $res[0]['AVG_VOLTAGE_B'] + $res[0]['AVG_VOLTAGE_C']) / 3, 2);
+		$avg['max'] = sprintf("%.2f", $max);
+		$avg['min'] = sprintf("%.2f", $min);
+		$avg['avg'] = sprintf("%.2f", $avgres);
+		$list = MultimeterDataHistory::getList($where, $field, $start, $end);
 		$arr[0]['name'] = 'A相电压';
 		$arr[1]['name'] = 'B相电压';
 		$arr[2]['name'] = 'C相电压';
@@ -1552,16 +1659,24 @@ class DataQuery extends Api
 		$arr[2]['list'] = [];
 		$xAxis = [];
 		foreach ($list as $key => $value) {
-			$arr[0]['list'][] = $val['VOLTAGE_A'];
-			$arr[1]['list'][] = $val['VOLTAGE_B'];
-			$arr[2]['list'][] = $val['VOLTAGE_C'];
-			$xAxis[] = $val['TIME1'];
+			$arr[0]['list'][] = $value['VOLTAGE_A'];
+			$arr[1]['list'][] = $value['VOLTAGE_B'];
+			$arr[2]['list'][] = $value['VOLTAGE_C'];
+			$xAxis[] = $value['TIME1'];
 		}
 
-		$returnArr['data'] = $arr;
+		$returnArr['chart'] = $arr;
 		$returnArr['yAxisUnit'] = $yAxisUnit;
 		$returnArr['xAxisUnit'] = $xAxisUnit;
+		$returnArr['avg'] = $avg;
 		$returnArr['xAxis'] = $xAxis;
+		foreach ($returnArr['chart'] as $key => $value) {
+			foreach ($value['list'] as $k => $v) {
+				$value['list'][$k] = sprintf("%.2f", $v);
+			}
+			$returnArr['chart'][$key]['list'] = array_slice($value['list'], -100);
+		}
+		$returnArr['xAxis'] = $arr = array_slice($returnArr['xAxis'], -100);
 		return $returnArr;
 	}
 
@@ -1572,12 +1687,21 @@ class DataQuery extends Api
 	 * @param    string
 	 * @return   [type]
 	 */
-	private function lowInAndOutCabinetCurrent($where, $field)
+	private function lowInAndOutCabinetCurrent($where, $field, $start, $end)
 	{	
 		$xAxisUnit = '时间';
 		$field = $field.",CURRENT_A,CURRENT_B,CURRENT_C,date_format(TIME,'%H:%i') as TIME1";
 		$yAxisUnit = "电流: A";
-		$list = MultimeterDataHistory::getList($where, $field);
+		$fields =$field. ',max(CURRENT_A) as MAX_CURRENT_A,max(CURRENT_B) as MAX_CURRENT_B,max(CURRENT_C) as MAX_CURRENT_C,min(CURRENT_A) as MIN_CURRENT_A,min(CURRENT_B) as MIN_CURRENT_B,min(CURRENT_C) as MIN_CURRENT_C,avg(CURRENT_A) as AVG_CURRENT_A,avg(CURRENT_B) as AVG_CURRENT_B,avg(CURRENT_C) as AVG_CURRENT_C';
+						//最大值查询//最小值查询//平均值查询
+		$res = MultimeterDataHistory::getValue($where,$fields,$start, $end);
+		$max = $res[0] ? max($res[0]['MAX_CURRENT_A'],$res[0]['MAX_CURRENT_B'],$res[0]['MAX_CURRENT_C']) : 0;
+		$min = $res[0] ? min($res[0]['MIN_CURRENT_A'], $res[0]['MIN_CURRENT_B'], $res[0]['MIN_CURRENT_C']) : 0;
+		$avgres = round(($res[0]['AVG_CURRENT_A'] + $res[0]['AVG_CURRENT_B'] + $res[0]['AVG_CURRENT_C']) / 3, 2);
+		$avg['max'] = sprintf("%.2f", $max);
+		$avg['min'] = sprintf("%.2f", $min);
+		$avg['avg'] = sprintf("%.2f", $avgres);
+		$list = MultimeterDataHistory::getList($where, $field ,$start, $end);
 		$arr[0]['name'] = 'A相电流';
 		$arr[1]['name'] = 'B相电流';
 		$arr[2]['name'] = 'C相电流';
@@ -1586,16 +1710,24 @@ class DataQuery extends Api
 		$arr[2]['list'] = [];
 		$xAxis = [];
 		foreach ($list as $key => $value) {
-			$arr[0]['list'][] = $val['CURRENT_A'];
-			$arr[1]['list'][] = $val['CURRENT_B'];
-			$arr[2]['list'][] = $val['CURRENT_C'];
-			$xAxis[] = $val['TIME1'];
+			$arr[0]['list'][] = (string)$value['CURRENT_A'];
+			$arr[1]['list'][] = (string)$value['CURRENT_B'];
+			$arr[2]['list'][] = (string)$value['CURRENT_C'];
+			$xAxis[] = $value['TIME1'];
 		}
 
-		$returnArr['data'] = $arr;
+		$returnArr['chart'] = $arr;
 		$returnArr['yAxisUnit'] = $yAxisUnit;
 		$returnArr['xAxisUnit'] = $xAxisUnit;
+		$returnArr['avg'] = $avg;
 		$returnArr['xAxis'] = $xAxis;
+		foreach ($returnArr['chart'] as $key => $value) {
+			foreach ($value['list'] as $k => $v) {
+				$value['list'][$k] = sprintf("%.2f", $v);
+			}
+			$returnArr['chart'][$key]['list'] = array_slice($value['list'], -100);
+		}
+		$returnArr['xAxis'] = $arr = array_slice($returnArr['xAxis'], -100);
 		return $returnArr;
 	}
 
