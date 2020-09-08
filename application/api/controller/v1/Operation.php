@@ -94,9 +94,9 @@ class Operation extends Api
 		// return render_json($list);exit;
 		//Cache::rm('company_list');
 		//上线不使用缓存
-		if (Cache::get('company_list')) {
-			return render_json(unserialize(Cache::get('company_list')));
-		}
+		// if (Cache::get('company_list')) {
+		// 	return render_json(unserialize(Cache::get('company_list')));
+		// }
 		if (isset($param['CITYNAME']) && $param['CITYNAME']) {
 			$company_list = Company::getCompanyByUidCityName($uid,$param['CITYNAME']);
 		}else{
@@ -134,7 +134,7 @@ class Operation extends Api
 			}
 		}
 
-		Cache::set('company_list',serialize($company_list),86000);
+		//Cache::set('company_list',serialize($company_list),86000);
 		
 		return render_json($company_list);
 
