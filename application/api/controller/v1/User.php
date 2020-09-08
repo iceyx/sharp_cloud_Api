@@ -47,7 +47,6 @@ class User extends Api
     public function login()
     {
         $data = $this->request->param('');
-        //logTxt($data);
         $validate = new LoginByAccount;
         $result = $validate->check($data);
         if ($result !== true) {

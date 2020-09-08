@@ -17,12 +17,16 @@ class RoomModuleApparatus extends Model
 	 * @return   [type]                   [description]
 	 */
 	public static function getPoint()
-	{
-		return Db::table('tran_room_module_apparatus')
+	{	
+		 return Db::table('tran_room_module_apparatus')
 							->alias('trma')
 							->leftJoin(['tran_room_module trm'], "trma.ROOM_MODULE_ID = trm.ID")
+							->where('trm.COMPANY_ID', 'IN', function($query){
+								$query->table('mst_company')->field('ID')->where('1','1')->where('PID','neq','0')->select();
+							})
 							->group('trma.ID')
 							->count();
+
 	}
 	
 	/**

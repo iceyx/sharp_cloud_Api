@@ -56,9 +56,10 @@ class Company extends Api
 		$numstr = implode(',', $num);
 		$totalLoad = db::name('electricity_meter_data_ct')
 						->alias('eld')
-						->field('CAST(sum(eld.ACTIVE_POWER) AS DECIMAL(10.5)) as tolalLoad')
+						->field('CAST(sum(eld.ACTIVE_POWER) AS DECIMAL(10,5)) AS tolalLoad')
 						->where('eld.LINK_NUMBER','in',$num)
 						->find();
+
 		 //容量
 		$totalCapacity = Db::name('multimeter')
 							->alias('mm')
@@ -75,8 +76,8 @@ class Company extends Api
 		$companyData['yearElectricity'] = $yearElectricity['yearElectri'] ? $yearElectricity['yearElectri'] : 0.00;
 		$companyData['lastMouthElectricity'] = $lastMouthElectricity['mouthelectri'] ? $lastMouthElectricity['mouthelectri'] : 0.00;
 		$companyData['lastYearElectricity'] = $lastYearElectricity['yearElectri'] ? $lastYearElectricity['yearElectri'] : 0.00;
-		$companyData['totalLoad'] = $totalLoad['tolalload'] ? $totalLoad['tolalload'] : 0.00;
-		$companyData['totalCapacity'] = $totalCapacity['totalcapacity'] ? $totalCapacity['totalcapacity'] : 0;
+		$companyData['totalLoad'] = $totalLoad['tolalLoad'] ? (float)$totalLoad['tolalLoad'] : 0.00;
+		$companyData['totalCapacity'] = $totalCapacity['totalCapacity'] ? $totalCapacity['totalCapacity'] : 0;
 		$companyData['maxLoad'] = $maxLoad['LARGEST_LOAD'] ? $maxLoad['LARGEST_LOAD'] : 0.00;
 		return render_json($companyData);
 

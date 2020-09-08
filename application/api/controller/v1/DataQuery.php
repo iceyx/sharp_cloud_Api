@@ -171,7 +171,6 @@ class DataQuery extends Api
 		ValidataCommon::validateCheck(['HIS_NOW' => 'require'], $this->request->param('')); //参数验证历史数据还是实时数据
 		ValidataCommon::validateCheck(['CATEGORY' => 'require'], $this->request->param('')); //参数验证分类
 
-		//logTxt($param);
 		//暂时这样处理，以后再优化。1、2的差距只有时间查询条件
 		if ($param['HIS_NOW'] == 1) {
 			$list = $this->realTimeData($param);
@@ -277,7 +276,6 @@ class DataQuery extends Api
 		
 		//$whereT = ['TIME', $START_TIME, $END_TIME];
 		$field = 'TIME, LINK_NUMBER';
-		logTxt($param);
 		$where['LINK_NUMBER'] = $param['LINK_NUMBER'];
 		switch ($param['CATEGORY']) {
 			case '计量柜':
